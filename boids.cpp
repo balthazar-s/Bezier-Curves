@@ -2,20 +2,22 @@
 #include <vector> 
 using namespace std;
 
-class Bool {
+class Boid {
   public:
     vector<int> pos;
     vector<int> vec;
+
+    void draw() {
+      return
+    }
 }
 
 int main() {
   
-  bool logged_in = false;
+  
   
   // Write the code below:
   
-  if (not logged_in) {
-    std::cout << "Try again";
-  }
+  
   
 }
