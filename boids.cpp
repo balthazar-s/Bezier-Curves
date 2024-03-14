@@ -1,5 +1,6 @@
-#include <iostream>
 #include <vector> 
+#include <math.h>
+#include "boids.h"
 using namespace std;
 
 class Boid {

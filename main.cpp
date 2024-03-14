@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+#include "boids.h"
+using namespace std;
 
 int main()
 {
