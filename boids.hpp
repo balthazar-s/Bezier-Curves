@@ -20,5 +20,7 @@ class Boid {
 
     void update_pos(int WIDTH, int HEIGHT);
 
-    void separation();
+    void separation(vector<Boid>& boids);
+
+    void alignment(vector<Boid>& boids);
 };

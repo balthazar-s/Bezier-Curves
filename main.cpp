@@ -72,6 +72,7 @@ int main()
         {
             boids[i].update_pos(WIDTH, HEIGHT);
             boids[i].draw_boid(window);
+            boids[i].separation(boids);
         }
         
         window.display();
