@@ -3,22 +3,12 @@
 #include "boids.h"
 using namespace std;
 
-class Boid {
-  public:
-    vector<int> pos;
-    vector<int> vec;
+void Boid::draw () 
+{
 
-    void draw() {
-      return
-    }
 }
 
-int main() {
-  
-  
-  
-  // Write the code below:
-  
-  
+void Boid::update_pos()
+{
   
 }
