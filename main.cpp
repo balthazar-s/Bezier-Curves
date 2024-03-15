@@ -5,8 +5,8 @@ using namespace std;
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Boids");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    // sf::CircleShape shape(100.f);
+    // shape.setFillColor(sf::Color::Green);
 
     while (window.isOpen())
     {
