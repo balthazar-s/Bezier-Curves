@@ -1,4 +1,4 @@
-BUILD_DIR := .gitignore/build
+BUILD_DIR := .build
 
 all: compile link
 

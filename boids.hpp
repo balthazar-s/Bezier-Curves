@@ -18,5 +18,7 @@ class Boid {
 
     void draw_boid(sf::RenderWindow& window);
 
-    void update_pos();
+    void update_pos(int WIDTH, int HEIGHT);
+
+    void separation();
 };
