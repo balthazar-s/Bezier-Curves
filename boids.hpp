@@ -7,7 +7,8 @@ class Boid {
     // Public variables
     vector<int> pos;
     vector<int> vel;
-    sf::CircleShape boid_shape;
+    int angle;
+    sf::ConvexShape boid_shape;
 
     // Constructor to initialize pos and vel
     Boid(const vector<int> position, const vector<int> velocity) : pos(position), vel(velocity) {};
