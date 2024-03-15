@@ -8,7 +8,6 @@ class Boid {
     vector<int> pos;
     vector<int> vec;
     sf::CircleShape boid_shape(4.f);
-    Boid::boid_shape.setFillColor(sf::Color::Green);
 
     // Public functions
     void draw();

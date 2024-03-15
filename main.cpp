@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "boids.h"
+#include <vector> 
 using namespace std;
 
 int main()
@@ -8,6 +9,16 @@ int main()
     // sf::CircleShape shape(100.f);
     // shape.setFillColor(sf::Color::Green);
 
+    vector<Boid> boids;
+        
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            boids.push_back(Boid({0, 0}, {0, 0}));
+        }
+    }
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -18,7 +29,12 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
+
+        for (int i = 0; i < 25; i++)
+        {
+            window.draw(boids[i].boid_shape)
+        }
+        
         window.display();
     }
 
