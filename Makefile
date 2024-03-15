@@ -1,8 +1,8 @@
 all: compile link
 
 compile:
-	g++ -Isrc/include -c main.cpp
+	g++ -Isrc/include -c main.cpp boids.cpp
 
 link:
-	g++ main.o -o main -Lsrc/lib -lsfml-graphics -lsfml-window -lsfml-system
+	g++ main.o boids.o -o main -Lsrc/lib -lsfml-graphics -lsfml-window -lsfml-system
 

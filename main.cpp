@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "boids.h"
+#include "boids.hpp"
 #include <vector> 
 using namespace std;
 
@@ -14,8 +14,11 @@ int main()
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 5; j++)
-        {
-            boids.push_back(Boid({0, 0}, {0, 0}));
+        {   
+            vector<int> position = {0, 0};
+            vector<int> velocity = {1, 1};
+            boids.push_back(Boid(position, velocity));
+            boids[i].initialise();
         }
     }
     
@@ -32,7 +35,8 @@ int main()
 
         for (int i = 0; i < 25; i++)
         {
-            window.draw(boids[i].boid_shape)
+            
+            boids[i].draw_boid(window);
         }
         
         window.display();
