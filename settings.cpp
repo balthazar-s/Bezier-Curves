@@ -1,5 +1,5 @@
 // Speedcap
-const float maxspeed = 8;
+const float maxspeed = 12;
 const float minspeed = 2;
 
 // Separation
