@@ -129,12 +129,11 @@ void Boid::alignment(vector<Boid>& boids)
 
 void Boid::cohesion(vector<Boid>& boids)
 {
-    float x_pos_avg = 0;
-    float y_pos_avg = 0;
+    float xpos_avg = 0;
+    float ypos_avg = 0;
     int neighboring_boids = 0;
-    int visible_range = 100;
-    int centering_factor = 0.0005;
 
+    // Step 1: Loop through every other boid
     for (int i = 0, len = boids.size(); i < len; i++)
     {
         // Calculate the distance between this boid and the current boid
@@ -142,19 +141,26 @@ void Boid::cohesion(vector<Boid>& boids)
         float dy = boids[i].pos[1] - pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
+        // Step 2: If the distance to a particular boid is less than the visible range
         if (distance <= visible_range && distance > 0)
         {
-            x_pos_avg += boids[i].pos[0];
-            y_pos_avg += boids[i].pos[1];
+            // Add the x and y positions of the other boid to xpos_avg and ypos_avg
+            xpos_avg += boids[i].pos[0];
+            ypos_avg += boids[i].pos[1];
+            // Increment neighboring_boids
             neighboring_boids += 1;
         }
     }    
+
+    // Step 3: If neighboring_boids > 0
     if (neighboring_boids > 0)
     {
-        x_pos_avg = x_pos_avg / neighboring_boids;
-        y_pos_avg = y_pos_avg / neighboring_boids;
+        // Calculate the average position
+        xpos_avg /= neighboring_boids;
+        ypos_avg /= neighboring_boids;
 
-        vel[0] += (x_pos_avg - vel[0]) * centering_factor;
-        vel[1] += (y_pos_avg - vel[1]) * centering_factor;  
+        // Update the velocity according to the difference between the average position and the current position
+        vel[0] += (xpos_avg - pos[0]) * centering_factor;
+        vel[1] += (ypos_avg - pos[1]) * centering_factor;  
     }
 }

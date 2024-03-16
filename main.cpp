@@ -10,14 +10,9 @@ int main()
     // Window variables
     const int HEIGHT = 1000;
     const int WIDTH = 1000;
-
-    // Anti-aliasing
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8; // Adjust the antialiasing level as needed
-
-    // Create window
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
-    window.setFramerateLimit(60);
 
     srand(time(nullptr));
 
@@ -29,8 +24,8 @@ int main()
     int rows = 10;
 
     // Velocity ranges
-    float min = -10.0f;
-    float max = 10.0f; 
+    float min = -3.0f;
+    float max = 3.0f; 
 
     for (int i = 0; i < rows; i++)
     {
@@ -56,27 +51,39 @@ int main()
         }
     }
     
+    // Simulation variables
+    const int SIMULATION_FPS = 60;
+    const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
+    sf::Clock simulationClock;
+    sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
+
     // Main process
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
+        // Simulate fixed time steps
+        elapsedTimeSinceLastUpdate += simulationClock.restart();
+        while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
+            // Update simulation
+            for (int i = 0, len = boids.size(); i < len; i++) {
+                boids[i].update_pos(WIDTH, HEIGHT);
+                boids[i].separation(boids);
+                boids[i].alignment(boids);
+                boids[i].cohesion(boids);
+                boids[i].speed_cap();
+            }
+            elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
+        }
+
         window.clear();
 
-        // Draw and update all Boids
-        for (int i = 0, len = boids.size(); i < len; i++)
-        {
-            boids[i].update_pos(WIDTH, HEIGHT);
+        // Draw all Boids
+        for (int i = 0, len = boids.size(); i < len; i++) {
             boids[i].draw_boid(window);
-            boids[i].separation(boids);
-            boids[i].alignment(boids);
-            boids[i].cohesion(boids);
-            boids[i].speed_cap();
         }
         
         window.display();

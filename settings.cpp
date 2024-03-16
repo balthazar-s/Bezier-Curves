@@ -1,15 +1,15 @@
 // Speedcap
-float maxspeed = 15;
-float minspeed = 5;
+const float maxspeed = 8;
+const float minspeed = 2;
 
 // Separation
-float avoidfactor = 0.05;
-float protected_range = 35;
+const float avoidfactor = 0.1;
+const float protected_range = 25;
 
 // Alignment
-int visible_range = 250;
-int matching_factor = 0.05;
+const float visible_range = 64;
+const float matching_factor = 0.00005;
 
 // Cohesion
 // visible range = 40;
-int centering_factor = 0.005;
+const float centering_factor = 0.0005;
