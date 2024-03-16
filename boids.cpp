@@ -1,6 +1,7 @@
 #include <vector> 
 #include <math.h>
 #include "boids.hpp"
+#include "settings.cpp"
 using namespace std;
 
 void Boid::initialise()
@@ -19,8 +20,8 @@ void Boid::draw_boid(sf::RenderWindow& window)
 
 void Boid::update_pos(int WIDTH, int HEIGHT)
 {
-    pos[0] += vel[0] * 0.5f; 
-    pos[1] += vel[1] * 0.5f;
+    pos[0] += vel[0]; 
+    pos[1] += vel[1];
 
     // Wrap around from edges
     if (pos[0] > WIDTH + 10)
@@ -53,11 +54,26 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
     boid_shape.setRotation(angle);
 }
 
+void Boid::speed_cap()
+{
+    float speed = sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
+
+    if (speed > maxspeed)
+    {
+        vel[0] = (vel[0] / speed) * maxspeed;
+        vel[1] = (vel[1] / speed) * maxspeed;
+    }
+
+    if (speed > minspeed)
+    {
+        vel[0] = (vel[0] / speed) * minspeed;
+        vel[1] = (vel[1] / speed) * minspeed;
+    }
+}
+
 void Boid::separation(vector<Boid>& boids)
 {   
-    float protected_range = 32;
     float protected_range_squared = protected_range * protected_range; // squared protected range
-    float avoidfactor = 0.05; // adjust as needed
     float close_dx = 0;
     float close_dy = 0;
 
@@ -85,8 +101,6 @@ void Boid::alignment(vector<Boid>& boids)
     float x_vel_avg = 0;
     float y_vel_avg = 0;
     int neighboring_boids = 0;
-    int visible_range = 100;
-    int matching_factor = 0.1;
 
     for (int i = 0, len = boids.size(); i < len; i++)
     {
@@ -115,5 +129,32 @@ void Boid::alignment(vector<Boid>& boids)
 
 void Boid::cohesion(vector<Boid>& boids)
 {
-    
+    float x_pos_avg = 0;
+    float y_pos_avg = 0;
+    int neighboring_boids = 0;
+    int visible_range = 100;
+    int centering_factor = 0.0005;
+
+    for (int i = 0, len = boids.size(); i < len; i++)
+    {
+        // Calculate the distance between this boid and the current boid
+        float dx = boids[i].pos[0] - pos[0];
+        float dy = boids[i].pos[1] - pos[1];
+        float distance = sqrt(dx * dx + dy * dy);
+
+        if (distance <= visible_range && distance > 0)
+        {
+            x_pos_avg += boids[i].pos[0];
+            y_pos_avg += boids[i].pos[1];
+            neighboring_boids += 1;
+        }
+    }    
+    if (neighboring_boids > 0)
+    {
+        x_pos_avg = x_pos_avg / neighboring_boids;
+        y_pos_avg = y_pos_avg / neighboring_boids;
+
+        vel[0] += (x_pos_avg - vel[0]) * centering_factor;
+        vel[1] += (y_pos_avg - vel[1]) * centering_factor;  
+    }
 }

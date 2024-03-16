@@ -1,5 +1,5 @@
 # Ignore build folder
 .build
 
-# Ignore .vscode folder
+# Ignore .vscode settings
 .vscode

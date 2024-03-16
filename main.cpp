@@ -26,7 +26,11 @@ int main()
 
     // Define number of boids
     int cols = 10;
-    int rows = 10; 
+    int rows = 10;
+
+    // Velocity ranges
+    float min = -10.0f;
+    float max = 10.0f; 
 
     for (int i = 0; i < rows; i++)
     {
@@ -37,16 +41,9 @@ int main()
             float cord_y = (HEIGHT/(rows+1))*(i+1);
 
             // Random velocities
-            float vel_x = (static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 10)) - 5.0f) * 0.5f;
-            float vel_y = (static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 10)) - 5.0f) * 0.5f;
+            float vel_x = min + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (max - min)));
+            float vel_y = min + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 
-            // Randomly assign velocities positive or negative signs
-            if (rand() % 2 == 0) {
-                vel_x = -vel_x; 
-            }
-            if (rand() % 2 == 0) {
-                vel_y = -vel_y; 
-}
             // Create vectors to be used in boid creation
             vector<float> position = {cord_x, cord_y};
             vector<float> velocity = {vel_x, vel_y};
@@ -78,6 +75,8 @@ int main()
             boids[i].draw_boid(window);
             boids[i].separation(boids);
             boids[i].alignment(boids);
+            boids[i].cohesion(boids);
+            boids[i].speed_cap();
         }
         
         window.display();

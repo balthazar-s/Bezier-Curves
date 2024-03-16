@@ -25,4 +25,6 @@ class Boid {
     void alignment(vector<Boid>& boids);
 
     void cohesion(vector<Boid>& boids);
+
+    void speed_cap();
 };
