@@ -24,17 +24,21 @@ int main()
     // Create all Boids
     vector<Boid> boids;
 
-    for (int i = 0; i < 5; i++)
+    // Define number of boids
+    int cols = 10;
+    int rows = 10; 
+
+    for (int i = 0; i < rows; i++)
     {
-        for (int j = 0; j < 5; j++)
+        for (int j = 0; j < cols; j++)
         {   
             // Grid for coordinates
-            int cord_x = (WIDTH/6)*(j+1);
-            int cord_y = (HEIGHT/6)*(i+1);
+            float cord_x = (WIDTH/(cols+1))*(j+1);
+            float cord_y = (HEIGHT/(rows+1))*(i+1);
 
             // Random velocities
-            int vel_x = (rand() % 300 + 100) / 100;
-            int vel_y = (rand() % 300 + 100) / 100;
+            float vel_x = (static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 10)) - 5.0f) * 0.5f;
+            float vel_y = (static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 10)) - 5.0f) * 0.5f;
 
             // Randomly assign velocities positive or negative signs
             if (rand() % 2 == 0) {
@@ -44,8 +48,8 @@ int main()
                 vel_y = -vel_y; 
 }
             // Create vectors to be used in boid creation
-            vector<int> position = {cord_x, cord_y};
-            vector<int> velocity = {vel_x, vel_y};
+            vector<float> position = {cord_x, cord_y};
+            vector<float> velocity = {vel_x, vel_y};
 
             // Create new Boid object at end of boids list
             boids.push_back(Boid(position, velocity));
@@ -68,11 +72,12 @@ int main()
         window.clear();
 
         // Draw and update all Boids
-        for (int i = 0; i < 25; i++)
+        for (int i = 0, len = boids.size(); i < len; i++)
         {
             boids[i].update_pos(WIDTH, HEIGHT);
             boids[i].draw_boid(window);
             boids[i].separation(boids);
+            boids[i].alignment(boids);
         }
         
         window.display();

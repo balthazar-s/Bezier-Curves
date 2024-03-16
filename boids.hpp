@@ -5,13 +5,13 @@ using namespace std;
 class Boid {
   public:
     // Public variables
-    vector<int> pos;
-    vector<int> vel;
+    vector<float> pos;
+    vector<float> vel;
     int angle;
     sf::ConvexShape boid_shape;
 
     // Constructor to initialize pos and vel
-    Boid(const vector<int> position, const vector<int> velocity) : pos(position), vel(velocity) {};
+    Boid(const vector<float> position, const vector<float> velocity) : pos(position), vel(velocity) {};
 
     // Public functions
     void initialise();
@@ -23,4 +23,6 @@ class Boid {
     void separation(vector<Boid>& boids);
 
     void alignment(vector<Boid>& boids);
+
+    void cohesion(vector<Boid>& boids);
 };
