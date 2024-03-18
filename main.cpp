@@ -7,6 +7,9 @@
 #include <random>
 using namespace std;
 
+// Declare functions
+vector<Boid> create_boids(int cols, int rows, int WIDTH, int HEIGHT);
+
 int main()
 {
     // Window variables
@@ -16,22 +19,68 @@ int main()
     settings.antialiasingLevel = 8; // Adjust the antialiasing level as needed
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
 
-    srand((unsigned) time(NULL));
-
-    // Create all Boids
-    vector<Boid> boids;
-
     // Define number of boids
     int cols = 10;
     int rows = 10;
 
+    // Create all Boids
+    vector<Boid> boids = create_boids(cols, rows, WIDTH, HEIGHT);
+      
+    // Simulation variables
+    const int SIMULATION_FPS = 60;
+    const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
+    sf::Clock simulationClock;
+    sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
+
+    // Main process
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        // Simulate fixed time steps
+        elapsedTimeSinceLastUpdate += simulationClock.restart();
+        while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
+            // Update simulation
+            for (int i = 0, len = boids.size(); i < len; i++) {
+                boids[i].update_pos_wraparound(WIDTH, HEIGHT);
+                boids[i].separation(boids);
+                boids[i].alignment(boids);
+                boids[i].cohesion(boids);
+                boids[i].speed_cap();
+            }
+            elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
+        }
+
+        window.clear();
+
+        // Draw all Boids
+        for (int i = 0, len = boids.size(); i < len; i++) {
+            boids[i].draw_boid(window);
+        }
+        
+        window.display();
+    }
+
+    return 0;
+}
+
+vector<Boid> create_boids(int cols, int rows, int WIDTH, int HEIGHT) // Returns list of boids assigned coordinates and random velocities
+{
+    // Random seed
+    srand((unsigned) time(NULL));
+
     // Define a random number generator engine
     random_device rd;
-    mt19937 gen(rd());
+    mt19937 gen(rd());  
 
-    for (int i = 0; i < rows; i++)
+    vector<Boid> create_boids_boids;
+
+    for (int i = 0; i < rows; i++) // Iterate through rows (x-coordinate)
     {
-        for (int j = 0; j < cols; j++)
+        for (int j = 0; j < cols; j++) // Iterate through columns (y-coordinate)
         {   
             // Grid for coordinates
             float cord_x = (WIDTH/(cols+1))*(j+1);
@@ -60,50 +109,12 @@ int main()
             vector<float> velocity = {vel_x, vel_y};
 
             // Create new Boid object at end of boids list
-            boids.push_back(Boid(position, velocity));
+            create_boids_boids.push_back(Boid(position, velocity));
             
             // Init all values of newest Boid
-            boids.back().initialise();
+            create_boids_boids.back().initialise();
         }
     }
-    
-    // Simulation variables
-    const int SIMULATION_FPS = 60;
-    const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
-    sf::Clock simulationClock;
-    sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
 
-    // Main process
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        // Simulate fixed time steps
-        elapsedTimeSinceLastUpdate += simulationClock.restart();
-        while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
-            // Update simulation
-            for (int i = 0, len = boids.size(); i < len; i++) {
-                boids[i].update_pos_avoid(WIDTH, HEIGHT);
-                boids[i].separation(boids);
-                boids[i].alignment(boids);
-                boids[i].cohesion(boids);
-                boids[i].speed_cap();
-            }
-            elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
-        }
-
-        window.clear();
-
-        // Draw all Boids
-        for (int i = 0, len = boids.size(); i < len; i++) {
-            boids[i].draw_boid(window);
-        }
-        
-        window.display();
-    }
-
-    return 0;
+    return create_boids_boids;
 }
