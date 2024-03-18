@@ -18,7 +18,7 @@ void Boid::draw_boid(sf::RenderWindow& window)
     window.draw(boid_shape);
 }
 
-void Boid::update_pos(int WIDTH, int HEIGHT)
+void Boid::update_pos_wraparound(int WIDTH, int HEIGHT)
 {
     pos[0] += vel[0]; 
     pos[1] += vel[1];
@@ -39,6 +39,42 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
     else if (pos[1] < -10)
     {
         pos[1] = HEIGHT + 10;
+    }
+
+
+    boid_shape.setPosition(pos[0], pos[1]);
+    if (vel[0] != 0 || vel[1] != 0) 
+    {
+        angle = (atan2(vel[1], vel[0]) * 180 / M_PI) - 90;
+    }
+    else
+    {
+        angle = 0; 
+    }
+    boid_shape.setRotation(angle);
+}
+
+void Boid::update_pos_avoid(int WIDTH, int HEIGHT)
+{
+    pos[0] += vel[0]; 
+    pos[1] += vel[1];
+
+    // Wrap around from edges
+    if (pos[0] > WIDTH - 50)
+    {
+        vel[0] += turnfactor;
+    }
+    else if (pos[0] < 50)
+    {
+        vel[0] += turnfactor;
+    }
+    else if (pos[1] > HEIGHT - 50)
+    {
+        vel[1] += turnfactor;
+    }
+    else if (pos[1] < 50)
+    {
+        vel[1] += turnfactor;
     }
 
 

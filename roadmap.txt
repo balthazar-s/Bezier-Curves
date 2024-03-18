@@ -1,0 +1,8 @@
+1. move simulation to different file
+
+2. connect simulation to main.cpp
+
+3. make popoutmenu in different file
+    with condion of fully popped out or not
+
+4. connect menu to main.cpp

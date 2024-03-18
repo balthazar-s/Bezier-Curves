@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "boids.hpp" // Boid class
+#include "simulation.hpp" // Simulation definitions
 #include "settings.cpp"
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
@@ -21,8 +22,8 @@ int main()
     vector<Boid> boids;
 
     // Define number of boids
-    int cols = 12;
-    int rows = 12;
+    int cols = 10;
+    int rows = 10;
 
     // Define a random number generator engine
     random_device rd;
@@ -85,7 +86,7 @@ int main()
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
             // Update simulation
             for (int i = 0, len = boids.size(); i < len; i++) {
-                boids[i].update_pos(WIDTH, HEIGHT);
+                boids[i].update_pos_avoid(WIDTH, HEIGHT);
                 boids[i].separation(boids);
                 boids[i].alignment(boids);
                 boids[i].cohesion(boids);

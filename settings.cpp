@@ -13,3 +13,6 @@ const float matching_factor = 0.00005;
 // Cohesion
 // visible range = 40;
 const float centering_factor = 0.0005;
+
+// Other
+const float turnfactor = 0.2;
