@@ -1,6 +1,6 @@
 #include "settings.hpp"
 
-// Define the variables
+// Define variables
 int WIDTH;
 int HEIGHT;
 
@@ -18,6 +18,7 @@ float centering_factor;
 
 bool avoid_walls;
 float turnfactor;
+bool menu_dropdown;
 
 // Initialize settings at proper values
 void init_settings()
@@ -40,8 +41,9 @@ void init_settings()
     centering_factor = 0.0005;
 
     // Other settings
-    avoid_walls = false;
+    avoid_walls = true;
     turnfactor = 0.2;
+    menu_dropdown = false;
 }
 
 

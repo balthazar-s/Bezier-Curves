@@ -25,6 +25,7 @@ extern float centering_factor;
 // Other settings
 extern bool avoid_walls;
 extern float turnfactor;
+extern bool menu_dropdown;
 
 
 // Functions
