@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "boids.hpp" // Boid class
 #include "simulation.hpp" // Simulation definitions
-#include "settings.cpp"
+#include "settings.hpp"
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
 #include <random>
@@ -9,9 +9,12 @@ using namespace std;
 
 int main()
 {
+    HEIGHT = 1000;
+    WIDTH = 1000;
+
+    init_settings();
+
     // Window variables
-    const int HEIGHT = 1000;
-    const int WIDTH = 1000;
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8; // Adjust the antialiasing level as needed
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
@@ -76,28 +79,14 @@ int main()
                 window.close();
         }
 
-        // Simulate fixed time steps
-        elapsedTimeSinceLastUpdate += simulationClock.restart();
-        while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
-            // Update simulation
-            for (int i = 0, len = boids.size(); i < len; i++) {
-                boids[i].update_pos_avoid(WIDTH, HEIGHT);
-                boids[i].separation(boids);
-                boids[i].alignment(boids);
-                boids[i].cohesion(boids);
-                boids[i].speed_cap();
-            }
-            elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
+        if (avoid_walls == false) // Boids will wrap around edges
+        {
+            simulation_wraparound(window, boids);
         }
-
-        window.clear();
-
-        // Draw all Boids
-        for (int i = 0, len = boids.size(); i < len; i++) {
-            boids[i].draw_boid(window);
+        else // Boids will avoid walls
+        {
+            simulation_avoid_walls(window, boids);
         }
-        
-        window.display();
     }
 
     return 0;

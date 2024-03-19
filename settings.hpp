@@ -1,7 +1,9 @@
-// settings.hpp
-
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
+
+// Window settings
+extern int WIDTH;
+extern int HEIGHT;
 
 // Speedcap
 extern float maxspeed;

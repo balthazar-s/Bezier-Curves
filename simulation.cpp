@@ -1,9 +1,10 @@
 #include <SFML/Graphics.hpp>
+#include "boids.hpp" // Boid class
+#include "settings.hpp"
 #include <vector> // For vector lists
-
 using namespace std;
 
-void simulation_avoid_edges(sf::RenderWindow& window, vector<Boid>& boids)
+void simulation_avoid_walls(sf::RenderWindow& window, vector<Boid>& boids)
 {
     // Simulation variables
     const int SIMULATION_FPS = 60;
@@ -11,7 +12,16 @@ void simulation_avoid_edges(sf::RenderWindow& window, vector<Boid>& boids)
     sf::Clock simulationClock;
     sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
 
-            // Simulate fixed time steps
+    // Main process
+    while (window.isOpen()) {
+        // Exit window event
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        
+        // Simulate fixed time steps
         elapsedTimeSinceLastUpdate += simulationClock.restart();
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
             // Update simulation
@@ -24,7 +34,6 @@ void simulation_avoid_edges(sf::RenderWindow& window, vector<Boid>& boids)
             }
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
         }
-
         window.clear();
 
         // Draw all Boids
@@ -33,7 +42,9 @@ void simulation_avoid_edges(sf::RenderWindow& window, vector<Boid>& boids)
         }
         
         window.display();
+    }
 }
+
 
 void simulation_wraparound(sf::RenderWindow& window, vector<Boid>& boids)
 {
@@ -43,6 +54,15 @@ void simulation_wraparound(sf::RenderWindow& window, vector<Boid>& boids)
     sf::Clock simulationClock;
     sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
 
+    // Main process
+    while (window.isOpen()) {
+        // Exit window event
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        
         // Simulate fixed time steps
         elapsedTimeSinceLastUpdate += simulationClock.restart();
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
@@ -56,7 +76,6 @@ void simulation_wraparound(sf::RenderWindow& window, vector<Boid>& boids)
             }
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
         }
-
         window.clear();
 
         // Draw all Boids
@@ -65,5 +84,5 @@ void simulation_wraparound(sf::RenderWindow& window, vector<Boid>& boids)
         }
         
         window.display();
-}
+    }
 }

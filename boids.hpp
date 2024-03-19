@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 using namespace std;
 
+#ifndef BOIDS_HPP
+#define BOIDS_HPP
+
 class Boid {
   public:
     // Public variables
@@ -30,3 +33,5 @@ class Boid {
 
     void speed_cap();
 };
+
+#endif

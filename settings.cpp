@@ -1,28 +1,27 @@
 #include "settings.hpp"
 
-// Speedcap
+// Define the variables
+int WIDTH;
+int HEIGHT;
+
 float maxspeed;
 float minspeed;
 
-// Separation
 float avoidfactor;
 float protected_range;
 
-// Alignment and Cohesion
 float visible_range;
 
-// Alignment
 float matching_factor;
 
-// Cohesion
 float centering_factor;
 
-// Other settings
 bool avoid_walls;
 float turnfactor;
 
-void init_settings() // Initialize settings at proper values
-{
+// Initialize settings at proper values
+void init_settings()
+{ 
     // Speedcap
     maxspeed = 12;
     minspeed = 2;
@@ -46,7 +45,7 @@ void init_settings() // Initialize settings at proper values
 }
 
 
-// Functions
+// Other Functions
 void change_avoid_walls()
 {
     if (avoid_walls == false)
