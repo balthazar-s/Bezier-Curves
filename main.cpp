@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "boids.hpp" // Boid class
 #include "simulation.hpp" // Simulation definitions
-#include "settings.cpp"
+#include "settings.hpp" // Settings
+#include "menu.hpp"
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
 #include <random>
@@ -22,6 +23,9 @@ int main()
     // Define number of boids
     int cols = 10;
     int rows = 10;
+
+    // Init settings
+    init_settings();
 
     // Create all Boids
     vector<Boid> boids = create_boids(cols, rows, WIDTH, HEIGHT);
