@@ -24,21 +24,21 @@ void Boid::update_pos_wraparound(int WIDTH, int HEIGHT)
     pos[1] += vel[1];
 
     // Wrap around from edges
-    if (pos[0] > WIDTH + 10)
+    if (pos[0] > WIDTH + 10.0)
     {
-        pos[0] = -10;
+        pos[0] = -10.0;
     }
-    else if (pos[1] > HEIGHT + 10)
+    else if (pos[1] > HEIGHT + 10.0)
     {
-        pos[1] = -10;
+        pos[1] = -10.0;
     }
-    else if (pos[0] < -10)
+    else if (pos[0] < -10.0)
     {
-        pos[0] = WIDTH + 10;
+        pos[0] = WIDTH + 10.0;
     }
-    else if (pos[1] < -10)
+    else if (pos[1] < -10.0)
     {
-        pos[1] = HEIGHT + 10;
+        pos[1] = HEIGHT + 10.0;
     }
 
 
@@ -61,26 +61,26 @@ void Boid::update_pos_avoid(int WIDTH, int HEIGHT)
     pos[1] += vel[1];
 
     // Check if the boid hits the right or left wall
-    if (pos[0] > WIDTH - 50)
+    if (pos[0] > WIDTH - 50.0)
     {
-        pos[0] = WIDTH - 50; // Prevent the boid from going beyond the right wall
+        pos[0] = WIDTH - 50.0; // Prevent the boid from going beyond the right wall
         vel[0] = -vel[0];    // Reverse the horizontal velocity
     }
-    else if (pos[0] < 50)
+    else if (pos[0] < 50.0)
     {
-        pos[0] = 50;         // Prevent the boid from going beyond the left wall
+        pos[0] = 50.0;         // Prevent the boid from going beyond the left wall
         vel[0] = -vel[0];    // Reverse the horizontal velocity
     }
 
     // Check if the boid hits the bottom or top wall
-    if (pos[1] > HEIGHT - 50)
+    if (pos[1] > HEIGHT - 50.0)
     {
-        pos[1] = HEIGHT - 50; // Prevent the boid from going beyond the bottom wall
+        pos[1] = HEIGHT - 50.0; // Prevent the boid from going beyond the bottom wall
         vel[1] = -vel[1];     // Reverse the vertical velocity
     }
-    else if (pos[1] < 50)
+    else if (pos[1] < 50.0)
     {
-        pos[1] = 50;          // Prevent the boid from going beyond the top wall
+        pos[1] = 50.0;          // Prevent the boid from going beyond the top wall
         vel[1] = -vel[1];     // Reverse the vertical velocity
     }
 
@@ -120,8 +120,8 @@ void Boid::speed_cap()
 void Boid::separation(vector<Boid>& boids)
 {   
     float protected_range_squared = protected_range * protected_range; // squared protected range
-    float close_dx = 0;
-    float close_dy = 0;
+    float close_dx = 0.0;
+    float close_dy = 0.0;
 
     for (int i = 0, len = boids.size(); i < len; i++)
     {
@@ -132,7 +132,7 @@ void Boid::separation(vector<Boid>& boids)
 
         if (distance_squared <= protected_range_squared && distance_squared > 0)
         {
-            float inv_distance = 1.0f / sqrt(distance_squared);
+            float inv_distance = 1.0 / sqrt(distance_squared);
             close_dx -= dx * inv_distance;
             close_dy -= dy * inv_distance;;
         } 
@@ -144,9 +144,9 @@ void Boid::separation(vector<Boid>& boids)
 
 void Boid::alignment(vector<Boid>& boids)
 {
-    float x_vel_avg = 0;
-    float y_vel_avg = 0;
-    int neighboring_boids = 0;
+    float x_vel_avg = 0.0;
+    float y_vel_avg = 0.0;
+    int neighboring_boids = 0.0;
 
     for (int i = 0, len = boids.size(); i < len; i++)
     {
@@ -160,7 +160,7 @@ void Boid::alignment(vector<Boid>& boids)
             // Calculate the adjustment to the velocity based on separation
             x_vel_avg += boids[i].pos[0];
             y_vel_avg += boids[i].pos[1];
-            neighboring_boids += 1;
+            neighboring_boids += 1.0;
         }
     }    
     if (neighboring_boids > 0)
@@ -175,9 +175,9 @@ void Boid::alignment(vector<Boid>& boids)
 
 void Boid::cohesion(vector<Boid>& boids)
 {
-    float xpos_avg = 0;
-    float ypos_avg = 0;
-    int neighboring_boids = 0;
+    float xpos_avg = 0.0;
+    float ypos_avg = 0.0;
+    int neighboring_boids = 0.0;
 
     // Step 1: Loop through every other boid
     for (int i = 0, len = boids.size(); i < len; i++)
@@ -194,7 +194,7 @@ void Boid::cohesion(vector<Boid>& boids)
             xpos_avg += boids[i].pos[0];
             ypos_avg += boids[i].pos[1];
             // Increment neighboring_boids
-            neighboring_boids += 1;
+            neighboring_boids += 1.0;
         }
     }    
 

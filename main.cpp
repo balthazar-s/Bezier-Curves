@@ -47,13 +47,13 @@ int main()
 
             // Randomize sign of velocities
             uniform_int_distribution<int> sign_dis(0, 1);
-            bool positive = sign_dis(gen);
-            if (positive == true) 
+            bool negative = sign_dis(gen);
+            if (negative == true) 
             {
                 vel_x = -vel_x;
             }
-            positive = sign_dis(gen);
-            if (positive == true) 
+            negative = sign_dis(gen);
+            if (negative == true) 
             {
                 vel_y = -vel_y;
             }
@@ -61,6 +61,7 @@ int main()
             // Create vectors to be used in boid creation
             vector<float> position = {cord_x, cord_y};
             vector<float> velocity = {vel_x, vel_y};
+            
 
             // Create new Boid object at end of boids list
             boids.push_back(Boid(position, velocity));
