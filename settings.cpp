@@ -41,7 +41,7 @@ void init_settings()
     centering_factor = 0.0005;
 
     // Other settings
-    avoid_walls = true;
+    avoid_walls = false;
     turnfactor = 0.2;
     menu_dropdown = false;
 }
