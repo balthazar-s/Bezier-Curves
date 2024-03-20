@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include "boids.hpp" // Boid class
-#include "menu.hpp" // draw menu
-#include "settings.hpp"
+#include "../include/boids.hpp" // Boid class
+#include "../include/menu.hpp" // draw menu
+#include "../include/settings.hpp"
 #include <vector> // For vector lists
 using namespace std;
 

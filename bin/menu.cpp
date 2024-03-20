@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp> // Graphics library
-#include "menu.hpp"
-#include "settings.hpp"
+#include "../include/menu.hpp"
+#include "../include/settings.hpp"
 
 
 void Menu::init_menu_vars()

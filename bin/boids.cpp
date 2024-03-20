@@ -1,7 +1,7 @@
 #include <vector> 
 #include <math.h>
-#include "boids.hpp"
-#include "settings.hpp"
+#include "../include/boids.hpp"
+#include "../include/settings.hpp"
 using namespace std;
 
 void Boid::initialise()

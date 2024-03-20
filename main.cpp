@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp> // Graphics library
-#include "boids.hpp" // Boid class
-#include "simulation.hpp" // Simulation definitions
-#include "settings.hpp"
+#include "include/boids.hpp" // Boid class
+#include "include/simulation.hpp" // Simulation definitions
+#include "include/settings.hpp"
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
 #include <random>
