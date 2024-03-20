@@ -23,6 +23,9 @@ bool menu_dropdown;
 // Initialize settings at proper values
 void init_settings()
 { 
+    WIDTH = 1000;
+    HEIGHT = 1000;
+
     // Speedcap
     maxspeed = 12;
     minspeed = 2;

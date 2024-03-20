@@ -21,9 +21,7 @@ class Boid {
 
     void draw_boid(sf::RenderWindow& window);
 
-    void update_pos_wraparound(int WIDTH, int HEIGHT);
-
-    void update_pos_avoid(int WIDTH, int HEIGHT);
+    void update_pos(int WIDTH, int HEIGHT);
 
     void separation(vector<Boid>& boids);
 

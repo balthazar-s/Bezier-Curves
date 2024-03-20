@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "include/boids.hpp" // Boid class
-#include "include/simulation.hpp" // Simulation definitions
 #include "include/settings.hpp"
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
@@ -9,9 +8,6 @@ using namespace std;
 
 int main()
 {
-    HEIGHT = 1000;
-    WIDTH = 1000;
-
     init_settings();
 
     // Window variables
@@ -65,19 +61,46 @@ int main()
 
             // Create new Boid object at end of boids list
             boids.push_back(Boid(position, velocity));
-            
-            // Init all values of newest Boid
             boids.back().initialise();
         }
     }
-    
-    if (avoid_walls == false) // Boids will wrap around edges
-    {
-        simulation_wraparound(window, boids);
-    }
-    else // Boids will avoid walls
-    {
-        simulation_avoid_walls(window, boids);
+            
+    // Simulation variables
+    const int SIMULATION_FPS = 60;
+    const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
+    sf::Clock simulationClock;
+    sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
+
+    // Main process
+    while (window.isOpen()) {
+        // Exit window event
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        
+        // Simulate fixed time steps
+        elapsedTimeSinceLastUpdate += simulationClock.restart();
+        while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
+            // Update simulation
+            for (int i = 0, len = boids.size(); i < len; i++) {
+                boids[i].update_pos(WIDTH, HEIGHT);
+                boids[i].separation(boids);
+                boids[i].alignment(boids);
+                boids[i].cohesion(boids);
+                boids[i].speed_cap();
+            }
+            elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
+        }
+        window.clear();
+
+        // Draw all Boids
+        for (int i = 0, len = boids.size(); i < len; i++) {
+            boids[i].draw_boid(window);
+        }
+
+        window.display();
     }
 
     return 0;
