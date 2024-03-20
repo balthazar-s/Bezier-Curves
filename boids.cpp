@@ -56,29 +56,39 @@ void Boid::update_pos_wraparound(int WIDTH, int HEIGHT)
 
 void Boid::update_pos_avoid(int WIDTH, int HEIGHT)
 {
+    // Update position
     pos[0] += vel[0]; 
     pos[1] += vel[1];
 
-    // Wrap around from edges
+    // Check if the boid hits the right or left wall
     if (pos[0] > WIDTH - 50)
     {
-        vel[0] += turnfactor;
+        pos[0] = WIDTH - 50; // Prevent the boid from going beyond the right wall
+        vel[0] = -vel[0];    // Reverse the horizontal velocity
     }
     else if (pos[0] < 50)
     {
-        vel[0] += turnfactor;
+        pos[0] = 50;         // Prevent the boid from going beyond the left wall
+        vel[0] = -vel[0];    // Reverse the horizontal velocity
     }
-    else if (pos[1] > HEIGHT - 50)
+
+    // Check if the boid hits the bottom or top wall
+    if (pos[1] > HEIGHT - 50)
     {
-        vel[1] += turnfactor;
+        pos[1] = HEIGHT - 50; // Prevent the boid from going beyond the bottom wall
+        vel[1] = -vel[1];     // Reverse the vertical velocity
     }
     else if (pos[1] < 50)
     {
-        vel[1] += turnfactor;
+        pos[1] = 50;          // Prevent the boid from going beyond the top wall
+        vel[1] = -vel[1];     // Reverse the vertical velocity
     }
 
 
+    // Update the position of the boid shape
     boid_shape.setPosition(pos[0], pos[1]);
+
+    // Cosmetic rotation
     if (vel[0] != 0 || vel[1] != 0) 
     {
         angle = (atan2(vel[1], vel[0]) * 180 / M_PI) - 90;

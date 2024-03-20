@@ -69,24 +69,14 @@ int main()
             boids.back().initialise();
         }
     }
-
-
-    // Main process
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        if (avoid_walls == false) // Boids will wrap around edges
-        {
-            simulation_wraparound(window, boids);
-        }
-        else // Boids will avoid walls
-        {
-            simulation_avoid_walls(window, boids);
-        }
+    
+    if (avoid_walls == false) // Boids will wrap around edges
+    {
+        simulation_wraparound(window, boids);
+    }
+    else // Boids will avoid walls
+    {
+        simulation_avoid_walls(window, boids);
     }
 
     return 0;

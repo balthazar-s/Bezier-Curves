@@ -31,12 +31,4 @@ extern bool menu_dropdown;
 // Functions
 void init_settings();
 
-void change_avoid_walls();
-
-void change_factor(int factor_index, float change);
-
-void change_range(int range_index, float change);
-
-void change_speed_range(int index, float change);
-
 #endif // SETTINGS_HPP

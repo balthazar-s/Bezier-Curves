@@ -5,6 +5,8 @@
 #include <vector> // For vector lists
 using namespace std;
 
+void draw_menu_logic(Menu &menu_instance, sf::RenderWindow& window);
+
 void simulation_avoid_walls(sf::RenderWindow& window, vector<Boid>& boids)
 {
     // Simulation variables
@@ -13,6 +15,7 @@ void simulation_avoid_walls(sf::RenderWindow& window, vector<Boid>& boids)
     sf::Clock simulationClock;
     sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
 
+    // Create menu instance
     Menu menu_instance;
     menu_instance.init_menu_vars();
 
@@ -48,7 +51,7 @@ void simulation_avoid_walls(sf::RenderWindow& window, vector<Boid>& boids)
         }
 
         // Draw menu
-        menu_dropdown(menu_instance, window);
+        draw_menu_logic(menu_instance, window);
         
         window.display();
     }
@@ -62,6 +65,10 @@ void simulation_wraparound(sf::RenderWindow& window, vector<Boid>& boids)
     const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
     sf::Clock simulationClock;
     sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
+
+    // Create menu instance
+    Menu menu_instance;
+    menu_instance.init_menu_vars();
 
     // Main process
     while (window.isOpen()) {
@@ -92,6 +99,9 @@ void simulation_wraparound(sf::RenderWindow& window, vector<Boid>& boids)
             boids[i].draw_boid(window);
         }
         
+        // Draw menu
+        draw_menu_logic(menu_instance, window);
+
         window.display();
     }
 }
