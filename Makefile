@@ -4,10 +4,10 @@ all: compile link
 
 compile:
 	g++ -Isrc/include -c main.cpp -o $(BUILD_DIR)/main.o -DSFML_STATIC
-	g++ -Isrc/include -c bin/boids.cpp -o $(BUILD_DIR)/boids.o -DSFML_STATIC
-	g++ -Isrc/include -c bin/simulation.cpp -o $(BUILD_DIR)/simulation.o -DSFML_STATIC
-	g++ -Isrc/include -c bin/settings.cpp -o $(BUILD_DIR)/settings.o -DSFML_STATIC
-	g++ -Isrc/include -c bin/menu.cpp -o $(BUILD_DIR)/menu.o -DSFML_STATIC
+	g++ -Isrc/include -c src/boids.cpp -o $(BUILD_DIR)/boids.o -DSFML_STATIC
+	g++ -Isrc/include -c src/simulation.cpp -o $(BUILD_DIR)/simulation.o -DSFML_STATIC
+	g++ -Isrc/include -c src/settings.cpp -o $(BUILD_DIR)/settings.o -DSFML_STATIC
+	g++ -Isrc/include -c src/menu.cpp -o $(BUILD_DIR)/menu.o -DSFML_STATIC
 
 link:
 	g++ $(BUILD_DIR)/main.o $(BUILD_DIR)/boids.o $(BUILD_DIR)/simulation.o \
