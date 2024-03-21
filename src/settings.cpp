@@ -31,7 +31,7 @@ void init_settings()
     minspeed = 0.1;
 
     // Separation
-    avoidfactor = 0.1;
+    avoidfactor = 0.005;
     protected_range = 25.0;
 
     // Alignment and Cohesion

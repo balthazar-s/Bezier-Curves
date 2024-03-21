@@ -84,11 +84,10 @@ void Boid::separation(vector<Boid>& boids)
         float dy = boids[i].pos[1] - pos[1];
         float distance_squared = dx * dx + dy * dy;
 
-        if (distance_squared <= protected_range_squared && distance_squared > 0)
+        if (sqrt(distance_squared) <= protected_range && distance_squared > 0)
         {
-            float inv_distance = 1.0 / sqrt(distance_squared);
-            close_dx -= dx * inv_distance;
-            close_dy -= dy * inv_distance;;
+            close_dx += pos[0] - boids[i].pos[0];
+            close_dy += pos[1] - boids[i].pos[1];
         } 
     }
 
