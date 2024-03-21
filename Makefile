@@ -11,4 +11,4 @@ link:
 	g++ $(BUILD_DIR)/main.o $(BUILD_DIR)/boids.o \
 		$(BUILD_DIR)/settings.o -o $(BUILD_DIR)/main \
 		-Lsrc/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype \
-		-lwinmm -lgdi32 -mwindows -lsfml-main -llibstdc++
+		-lwinmm -lgdi32 -mwindows -lsfml-main -static -lstdc++ -static-libgcc -static-libstdc++
