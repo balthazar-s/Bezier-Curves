@@ -82,12 +82,18 @@ void Boid::separation(vector<Boid>& boids)
         // Calculate the squared distance between this boid and the current boid
         float dx = boids[i].pos[0] - pos[0];
         float dy = boids[i].pos[1] - pos[1];
-        float distance_squared = dx * dx + dy * dy;
+        float distance = sqrt(dx * dx + dy * dy);
 
-        if (sqrt(distance_squared) <= protected_range && distance_squared > 0)
+        if (distance <= protected_range && distance > 0)
         {
-            close_dx += pos[0] - boids[i].pos[0];
-            close_dy += pos[1] - boids[i].pos[1];
+            // Normalize the direction vector pointing away from the other boid
+            float inv_distance = 1.0 / distance;
+            float direction_x = dx * inv_distance;
+            float direction_y = dy * inv_distance;
+
+            // Scale the repulsion force based on the inverse distance
+            close_dx -= direction_x;
+            close_dy -= direction_y;
         } 
     }
 
@@ -97,8 +103,8 @@ void Boid::separation(vector<Boid>& boids)
 
 void Boid::alignment(vector<Boid>& boids)
 {
-    float x_vel_avg = 0.0;
-    float y_vel_avg = 0.0;
+    float xvel_avg = 0.0;
+    float yvel_avg = 0.0;
     int neighboring_boids = 0;
 
     for (int i = 0, len = boids.size(); i < len; i++)
@@ -111,18 +117,18 @@ void Boid::alignment(vector<Boid>& boids)
         if (distance <= visible_range && distance > 0)
         {
             // Calculate the adjustment to the velocity based on separation
-            x_vel_avg += boids[i].pos[0];
-            y_vel_avg += boids[i].pos[1];
+            xvel_avg += boids[i].vel[0];
+            yvel_avg += boids[i].vel[1];
             neighboring_boids += 1;
         }
     }    
     if (neighboring_boids > 0)
     {
-        x_vel_avg = x_vel_avg / float(neighboring_boids);
-        y_vel_avg = y_vel_avg / float(neighboring_boids);
+        xvel_avg = xvel_avg / float(neighboring_boids);
+        yvel_avg = yvel_avg / float(neighboring_boids);
 
-        vel[0] += (x_vel_avg - vel[0]) * matching_factor;
-        vel[1] += (y_vel_avg - vel[1]) * matching_factor;  
+        vel[0] += (xvel_avg - vel[0]) * matching_factor;
+        vel[1] += (yvel_avg - vel[1]) * matching_factor;  
     }
 }
 

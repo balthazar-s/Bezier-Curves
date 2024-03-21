@@ -87,8 +87,8 @@ int main()
             for (int i = 0, len = boids.size(); i < len; i++) {
                 boids[i].update_pos(WIDTH, HEIGHT);
                 boids[i].separation(boids);
-                //boids[i].alignment(boids);
-                //boids[i].cohesion(boids);
+                boids[i].alignment(boids);
+                boids[i].cohesion(boids);
                 boids[i].speed_cap();
             }
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
