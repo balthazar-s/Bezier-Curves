@@ -27,18 +27,18 @@ void init_settings()
     HEIGHT = 1000;
 
     // Speedcap
-    maxspeed = 4;
+    maxspeed = 3;
     minspeed = 1.5;
 
     // Separation
-    avoidfactor = 0.1;
+    avoidfactor = 0.05;
     protected_range = 30;
 
     // Alignment and Cohesion
     visible_range = 64;
 
     // Alignment
-    matching_factor = 0.005;
+    matching_factor = 0.0075;
 
     // Cohesion
     centering_factor = 0.001;

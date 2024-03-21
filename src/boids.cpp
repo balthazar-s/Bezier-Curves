@@ -24,21 +24,21 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
     pos[1] += vel[1];
 
     // Wrap around from edges
-    if (pos[0] > WIDTH + 10.0)
+    if (pos[0] > WIDTH)
     {
-        pos[0] = -10.0;
+        pos[0] = 0.0;
     }
-    else if (pos[1] > HEIGHT + 10.0)
+    else if (pos[1] > HEIGHT)
     {
-        pos[1] = -10.0;
+        pos[1] = 0.0;
     }
-    else if (pos[0] < -10.0)
+    else if (pos[0] < 0)
     {
-        pos[0] = WIDTH + 10.0;
+        pos[0] = WIDTH;
     }
-    else if (pos[1] < -10.0)
+    else if (pos[1] < 0)
     {
-        pos[1] = HEIGHT + 10.0;
+        pos[1] = HEIGHT;
     }
 
 
@@ -73,33 +73,30 @@ void Boid::speed_cap()
 
 void Boid::separation(vector<Boid>& boids)
 {   
-    float protected_range_squared = protected_range * protected_range; // squared protected range
     float close_dx = 0.0;
     float close_dy = 0.0;
 
     for (int i = 0, len = boids.size(); i < len; i++)
     {
         // Calculate the squared distance between this boid and the current boid
-        float dx = boids[i].pos[0] - pos[0];
-        float dy = boids[i].pos[1] - pos[1];
+        float dx = pos[0] - boids[i].pos[0];
+        float dy = pos[1] - boids[i].pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
         if (distance <= protected_range && distance > 0)
         {
-            // Normalize the direction vector pointing away from the other boid
             float inv_distance = 1.0 / distance;
-            float direction_x = dx * inv_distance;
-            float direction_y = dy * inv_distance;
-
-            // Scale the repulsion force based on the inverse distance
-            close_dx -= direction_x;
-            close_dy -= direction_y;
+            
+            // Scale the repulsion force using the inverse distance
+            close_dx += dx * inv_distance;
+            close_dy += dy * inv_distance;
         } 
     }
 
     vel[0] += close_dx * avoidfactor;
     vel[1] += close_dy * avoidfactor;
 }
+
 
 void Boid::alignment(vector<Boid>& boids)
 {
