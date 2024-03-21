@@ -85,7 +85,7 @@ int main()
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
             // Update simulation
             for (int i = 0, len = boids.size(); i < len; i++) {
-                boids[i].update_pos_avoidwalls(WIDTH, HEIGHT);
+                boids[i].update_pos(WIDTH, HEIGHT);
                 boids[i].separation(boids);
                 boids[i].alignment(boids);
                 boids[i].cohesion(boids);

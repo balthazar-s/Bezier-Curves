@@ -7,7 +7,7 @@ using namespace std;
 void Boid::initialise()
 {
     boid_shape.setPointCount(3);
-    boid_shape.setFillColor(sf::Color(255, 255, 255));
+    boid_shape.setFillColor(sf::Color(0, 255, 0));
     boid_shape.setPoint(0, sf::Vector2f(0, 10)); // Top point
     boid_shape.setPoint(1, sf::Vector2f(-5, -10)); // Bottom left point
     boid_shape.setPoint(2, sf::Vector2f(5, -10)); // Bottom right point
@@ -24,21 +24,21 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
     pos[1] += vel[1];
 
     // Wrap around from edges
-    if (pos[0] > WIDTH)
+    if (pos[0] > WIDTH + 10)
     {
-        pos[0] = 0.0;
+        pos[0] = -10.0;
     }
-    else if (pos[1] > HEIGHT)
+    else if (pos[1] > HEIGHT + 10)
     {
-        pos[1] = 0.0;
+        pos[1] = -10.0;
     }
-    else if (pos[0] < 0)
+    else if (pos[0] < -10)
     {
-        pos[0] = WIDTH;
+        pos[0] = WIDTH + 10;
     }
-    else if (pos[1] < 0)
+    else if (pos[1] < -10)
     {
-        pos[1] = HEIGHT;
+        pos[1] = HEIGHT + 10;
     }
 
 
@@ -168,6 +168,15 @@ void Boid::alignment(vector<Boid>& boids)
         vel[0] += (xvel_avg - vel[0]) * matching_factor;
         vel[1] += (yvel_avg - vel[1]) * matching_factor;  
     }
+
+    int color_level = round(neighboring_boids * 255 / 32);
+
+    if (color_level > 255)
+    {
+        color_level = 255;
+    }
+
+    boid_shape.setFillColor(sf::Color(color_level, color_level, color_level));
 }
 
 void Boid::cohesion(vector<Boid>& boids)
