@@ -19,6 +19,7 @@ float centering_factor;
 bool avoid_walls;
 float turnfactor;
 bool menu_dropdown;
+int margin;
 
 // Initialize settings at proper values
 void init_settings()
@@ -45,6 +46,7 @@ void init_settings()
 
     // Other settings
     avoid_walls = false;
-    turnfactor = 0.2;
+    turnfactor = 0.1;
     menu_dropdown = false;
+    margin = 100;
 }

@@ -54,6 +54,47 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
     boid_shape.setRotation(angle);
 }
 
+void Boid::update_pos_avoidwalls(int WIDTH, int HEIGHT)
+{
+    // Update position
+    pos[0] += vel[0]; 
+    pos[1] += vel[1];
+
+    // Check if the boid hits the right or left wall
+    if (pos[0] > WIDTH - margin)
+    {
+        vel[0] -= turnfactor;    
+    }
+    else if (pos[0] < margin)
+    {
+        vel[0] += turnfactor;    
+    }
+    // Check if the boid hits the bottom or top wall
+    if (pos[1] > HEIGHT - margin)
+    {
+        vel[1] -= turnfactor;       
+    }
+    else if (pos[1] < margin)
+    {
+        vel[1] += turnfactor;       
+    }
+
+
+    // Update the position of the boid shape
+    boid_shape.setPosition(pos[0], pos[1]);
+
+    // Cosmetic rotation
+    if (vel[0] != 0 || vel[1] != 0) 
+    {
+        angle = (atan2(vel[1], vel[0]) * 180 / M_PI) - 90;
+    }
+    else
+    {
+        angle = 0; 
+    }
+    boid_shape.setRotation(angle);
+}
+
 void Boid::speed_cap()
 {
     float speed = sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
