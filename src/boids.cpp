@@ -64,7 +64,7 @@ void Boid::speed_cap()
         vel[1] = (vel[1] / speed) * maxspeed;
     }
 
-    if (speed > minspeed)
+    if (speed < minspeed)
     {
         vel[0] = (vel[0] / speed) * minspeed;
         vel[1] = (vel[1] / speed) * minspeed;
@@ -100,7 +100,7 @@ void Boid::alignment(vector<Boid>& boids)
 {
     float x_vel_avg = 0.0;
     float y_vel_avg = 0.0;
-    int neighboring_boids = 0.0;
+    int neighboring_boids = 0;
 
     for (int i = 0, len = boids.size(); i < len; i++)
     {
@@ -114,13 +114,13 @@ void Boid::alignment(vector<Boid>& boids)
             // Calculate the adjustment to the velocity based on separation
             x_vel_avg += boids[i].pos[0];
             y_vel_avg += boids[i].pos[1];
-            neighboring_boids += 1.0;
+            neighboring_boids += 1;
         }
     }    
     if (neighboring_boids > 0)
     {
-        x_vel_avg = x_vel_avg / neighboring_boids;
-        y_vel_avg = y_vel_avg / neighboring_boids;
+        x_vel_avg = x_vel_avg / float(neighboring_boids);
+        y_vel_avg = y_vel_avg / float(neighboring_boids);
 
         vel[0] += (x_vel_avg - vel[0]) * matching_factor;
         vel[1] += (y_vel_avg - vel[1]) * matching_factor;  
@@ -131,7 +131,7 @@ void Boid::cohesion(vector<Boid>& boids)
 {
     float xpos_avg = 0.0;
     float ypos_avg = 0.0;
-    int neighboring_boids = 0.0;
+    int neighboring_boids = 0;
 
     // Step 1: Loop through every other boid
     for (int i = 0, len = boids.size(); i < len; i++)
@@ -148,7 +148,7 @@ void Boid::cohesion(vector<Boid>& boids)
             xpos_avg += boids[i].pos[0];
             ypos_avg += boids[i].pos[1];
             // Increment neighboring_boids
-            neighboring_boids += 1.0;
+            neighboring_boids += 1;
         }
     }    
 
@@ -156,8 +156,8 @@ void Boid::cohesion(vector<Boid>& boids)
     if (neighboring_boids > 0)
     {
         // Calculate the average position
-        xpos_avg /= neighboring_boids;
-        ypos_avg /= neighboring_boids;
+        xpos_avg /= float(neighboring_boids);
+        ypos_avg /= float(neighboring_boids);
 
         // Update the velocity according to the difference between the average position and the current position
         vel[0] += (xpos_avg - pos[0]) * centering_factor;
