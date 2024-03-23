@@ -21,8 +21,8 @@ int main()
     vector<Boid> boids;
 
     // Define number of boids
-    int cols = 16;
-    int rows = 16;
+    int cols = 20;
+    int rows = 20;
 
     // Define a random number generator engine
     random_device rd;
@@ -85,10 +85,9 @@ int main()
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
             // Update simulation
             for (int i = 0, len = boids.size(); i < len; i++) {
-                boids[i].update_pos(WIDTH, HEIGHT);
+                boids[i].update_pos_avoidwalls(WIDTH, HEIGHT);
                 boids[i].separation(boids);
-                boids[i].alignment(boids);
-                boids[i].cohesion(boids);
+                boids[i].alignment_and_cohesion(boids);
                 boids[i].speed_cap();
             }
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
