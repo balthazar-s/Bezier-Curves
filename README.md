@@ -14,4 +14,4 @@ This project uses a simple boids algorithm built on the three following rules:
 
 This code in action looks like this:
 
-<img src="readme_assets/boids_example.gif" width="250" height="250" />
+<img src="readme_assets/boids_example.gif" width="700" height="700" />
