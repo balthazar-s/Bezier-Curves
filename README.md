@@ -9,7 +9,7 @@ This project uses a simple boids algorithm built on the three following rules:
 <ul>
   <li>Each boid attempts to avoid others _(separation)_</li>
   <li>Each boid attempts to align itself with the average heading of its neighbors _(alignment)_</li>
-  <li>Each boid attempts to steer towards the center of mass of its neighbors _cohesion_</li>
+  <li>Each boid attempts to steer towards the center of mass of its neighbors *(cohesion)*</li>
 </ul>
 
 This code in action looks like this:
