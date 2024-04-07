@@ -5,6 +5,10 @@
 extern int WIDTH;
 extern int HEIGHT;
 
+// Define size of grid of Boids
+extern int boids_cols;
+extern int boids_rows;
+
 // Speedcap
 extern float maxspeed;
 extern float minspeed;

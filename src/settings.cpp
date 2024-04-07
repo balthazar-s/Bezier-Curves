@@ -4,6 +4,10 @@
 int WIDTH;
 int HEIGHT;
 
+// Define size of grid of Boids
+int boids_cols;
+int boids_rows;
+
 float maxspeed;
 float minspeed;
 
@@ -27,12 +31,15 @@ void init_settings()
     WIDTH = 1000;
     HEIGHT = 1000;
 
+    boids_cols = 20;
+    boids_rows = 20;
+
     // Speedcap
     maxspeed = 3;
     minspeed = 1.5;
 
     // Separation
-    avoidfactor = 0.05;
+    avoidfactor = 0.06;
     protected_range = 12;
 
     // Alignment and Cohesion

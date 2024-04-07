@@ -13,7 +13,7 @@ class Boid {
     int angle;
     sf::ConvexShape boid_shape;
 
-    // Constructor to initialize pos and vel
+    // Constructor to initialize position and velocity
     Boid(const vector<float> position, const vector<float> velocity) : pos(position), vel(velocity) {};
 
     // Public functions

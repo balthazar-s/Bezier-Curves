@@ -1,5 +1,6 @@
 #include <vector> 
 #include <math.h>
+#include <algorithm>
 #include "../include/boids.hpp"
 #include "../include/settings.hpp"
 using namespace std;
@@ -181,12 +182,24 @@ void Boid::alignment_and_cohesion(vector<Boid>& boids)
     }
 
     // Colors
-    int color_level = round(neighboring_boids * 255 / 32);
+    int color_level = round(neighboring_boids * 255 / 10);
 
+    int red, green, blue;
+    
     if (color_level > 255)
     {
-        color_level = 255;
+        red = 255;
+        green = 255 - (color_level - 255);
+        blue = 0;
     }
+    else
+    {
+        red = color_level;
 
-    boid_shape.setFillColor(sf::Color(color_level, color_level, color_level));
+        green = color_level;
+
+        blue = 255 - color_level;
+    }
+    
+    boid_shape.setFillColor(sf::Color(red, green, blue));
 }

@@ -14,27 +14,23 @@ int main()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8; // Adjust the antialiasing level as needed
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
-
+    
     srand((unsigned) time(NULL));
 
     // Create all Boids
     vector<Boid> boids;
 
-    // Define number of boids
-    int cols = 20;
-    int rows = 20;
-
     // Define a random number generator engine
     random_device rd;
     mt19937 gen(rd());
 
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < boids_rows; i++)
     {
-        for (int j = 0; j < cols; j++)
+        for (int j = 0; j < boids_cols; j++)
         {   
             // Grid for coordinates
-            float cord_x = (WIDTH/(cols+1))*(j+1);
-            float cord_y = (HEIGHT/(rows+1))*(i+1);
+            float cord_x = (WIDTH/(boids_cols+1))*(j+1);
+            float cord_y = (HEIGHT/(boids_rows+1))*(i+1);
 
             // Random velocities
             uniform_real_distribution<float> vel_dis(minspeed, maxspeed);
@@ -92,6 +88,7 @@ int main()
             }
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
         }
+
         window.clear();
 
         // Draw all Boids
