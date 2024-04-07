@@ -15,3 +15,5 @@ This project uses a simple boids algorithm built on the three following rules:
 This code in action looks like this:
 
 <img src="readme_assets/boids_example.gif" width="700" height="700" />
+
+Additionally, a gradient was included based on the concentration of boids within a certain area. Blue is the least dense, then yellow is medium density, with red only appearing in cases of extreme density, 
