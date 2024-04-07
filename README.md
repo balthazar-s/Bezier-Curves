@@ -7,9 +7,9 @@ For more information about boids refer to [*Flocks, Herds, and Schools: A Distri
 
 This project uses a simple boids algorithm built on the three following rules:
 <ul>
-  <li>Each boid attempts to avoid others _(separation)_</li>
-  <li>Each boid attempts to align itself with the average heading of its neighbors _(alignment)_</li>
-  <li>Each boid attempts to steer towards the center of mass of its neighbors *(cohesion)*</li>
+  <li>Each boid attempts to avoid others <i>(separation)</i></li>
+  <li>Each boid attempts to align itself with the average heading of its neighbors <i>(alignment)</i></li>
+  <li>Each boid attempts to steer towards the center of mass of its neighbors <i>(cohesion)</i></li>
 </ul>
 
 This code in action looks like this:
