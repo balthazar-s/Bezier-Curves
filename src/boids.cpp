@@ -205,25 +205,27 @@ void Boid::alignment_and_cohesion(vector<Boid>& boids)
         vel[1] += (ypos_avg - pos[1]) * centering_factor;  
     }
 
-    // Colors
+    // Color gradient
+
+    // Calculate color level based on number of boids in neighborhood of current boid object
     int color_level = round(neighboring_boids * 255 / 10);
 
+    // Initialise seperate color values
     int red, green, blue;
     
-    if (color_level > 255)
+    if (color_level > 255) // Yellow to red
     {
         red = 255;
         green = 255 - (color_level - 255);
         blue = 0;
     }
-    else
+    else // Blue to yellow
     {
         red = color_level;
-
         green = color_level;
-
         blue = 255 - color_level;
     }
     
+    // Change current color with rgb values
     boid_shape.setFillColor(sf::Color(red, green, blue));
 }

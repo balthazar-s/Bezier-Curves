@@ -1,25 +1,29 @@
 #include "../include/settings.hpp"
 
 // Define variables
+
+// Window size
 int WIDTH;
 int HEIGHT;
 
-// Define size of grid of Boids
+// Size of grid of Boids
 int boids_cols;
 int boids_rows;
 
+// Maximum and minimum speed
 float maxspeed;
 float minspeed;
 
+// Separation
 float avoidfactor;
 float protected_range;
 
+// Alignment and Cohesion
 float visible_range;
-
 float matching_factor;
-
 float centering_factor;
 
+// Other settings
 bool avoid_walls;
 float turnfactor;
 bool menu_dropdown;
@@ -34,24 +38,18 @@ void init_settings()
     boids_cols = 20;
     boids_rows = 20;
 
-    // Speedcap
     maxspeed = 3;
     minspeed = 1.5;
 
-    // Separation
     avoidfactor = 0.06;
     protected_range = 12;
 
-    // Alignment and Cohesion
     visible_range = 32;
 
-    // Alignment
     matching_factor = 0.0075;
 
-    // Cohesion
     centering_factor = 0.001;
 
-    // Other settings
     avoid_walls = false;
     turnfactor = 0.1;
     menu_dropdown = false;
