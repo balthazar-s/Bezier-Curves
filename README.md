@@ -21,6 +21,4 @@ Additionally, a gradient was included based on the concentration of boids within
 **Disclaimer: may be significantly laggy on some systems due to cpu limitations.**
 
 
-<picture>
-  <source srcset="readme_assets/boids_example.jpg">
-</picture>
+<img src="readme_assets/boids_example.jpg" alt="picture_logo" style="width:auto;">
