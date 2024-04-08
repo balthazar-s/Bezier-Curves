@@ -1,13 +1,14 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "include/boids.hpp" // Boid class
-#include "include/settings.hpp"
+#include "include/settings.hpp" // Settings to facilitate tweaking values
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
 #include <random>
 using namespace std;
 
 int main()
-{
+{   
+    // Initialise all settings in settings.cpp
     init_settings();
 
     // Window variables
@@ -15,6 +16,7 @@ int main()
     settings.antialiasingLevel = 8; // Adjust the antialiasing level as needed
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
     
+    // Random number seed
     srand((unsigned) time(NULL));
 
     // Create all Boids
@@ -24,13 +26,15 @@ int main()
     random_device rd;
     mt19937 gen(rd());
 
-    for (int i = 0; i < boids_rows; i++)
+    // Across
+    for (int i = 0; i < boids_cols; i++)
     {
-        for (int j = 0; j < boids_cols; j++)
+        // Down
+        for (int j = 0; j < boids_rows; j++)
         {   
             // Grid for coordinates
-            float cord_x = (WIDTH/(boids_cols+1))*(j+1);
-            float cord_y = (HEIGHT/(boids_rows+1))*(i+1);
+            float cord_x = (WIDTH/(boids_rows+1))*(j+1);
+            float cord_y = (HEIGHT/(boids_cols+1))*(i+1);
 
             // Random velocities
             uniform_real_distribution<float> vel_dis(minspeed, maxspeed);
@@ -54,7 +58,6 @@ int main()
             vector<float> position = {cord_x, cord_y};
             vector<float> velocity = {vel_x, vel_y};
             
-
             // Create new Boid object at end of boids list
             boids.push_back(Boid(position, velocity));
             boids.back().initialise();
@@ -62,6 +65,7 @@ int main()
     }
             
     // Simulation variables
+    // This is done seperately from the window so as to avoid frame stuttering
     const int SIMULATION_FPS = 80;
     const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
     sf::Clock simulationClock;
@@ -89,6 +93,7 @@ int main()
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
         }
 
+        // Clear window
         window.clear();
 
         // Draw all Boids
@@ -96,6 +101,7 @@ int main()
             boids[i].draw_boid(window);
         }
 
+        // Display window
         window.display();
     }
 

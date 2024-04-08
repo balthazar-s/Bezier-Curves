@@ -7,6 +7,7 @@ using namespace std;
 
 void Boid::initialise()
 {
+    // Create triangle for boid object
     boid_shape.setPointCount(3);
     boid_shape.setFillColor(sf::Color(0, 255, 0));
     boid_shape.setPoint(0, sf::Vector2f(0, 5)); // Top point
@@ -16,15 +17,17 @@ void Boid::initialise()
 
 void Boid::draw_boid(sf::RenderWindow& window) 
 {
+    // Draw boid shape with SFML
     window.draw(boid_shape);
 }
 
-void Boid::update_pos(int WIDTH, int HEIGHT)
+void Boid::update_pos(int WIDTH, int HEIGHT) // Boids wrap around borders
 {
+    // Update position based on velocity
     pos[0] += vel[0]; 
     pos[1] += vel[1];
 
-    // Wrap around from edges
+    // Wrap around borders
     if (pos[0] > WIDTH + 10)
     {
         pos[0] = -10.0;
@@ -42,8 +45,10 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
         pos[1] = HEIGHT + 10;
     }
 
-
+    // Set position of the boid shape based on position
     boid_shape.setPosition(pos[0], pos[1]);
+
+    // Calculate angle boid is facing based on velocity
     if (vel[0] != 0 || vel[1] != 0) 
     {
         angle = (atan2(vel[1], vel[0]) * 180 / M_PI) - 90;
@@ -52,16 +57,20 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
     {
         angle = 0; 
     }
+
+    // Set angle of the boid shape based on angle calculated before
     boid_shape.setRotation(angle);
 }
 
-void Boid::update_pos_avoidwalls(int WIDTH, int HEIGHT)
+void Boid::update_pos_avoidwalls(int WIDTH, int HEIGHT) // Boids avoid walls
 {
-    // Update position
+    // Update position based on velocity
     pos[0] += vel[0]; 
     pos[1] += vel[1];
 
-    // Check if the boid hits the right or left wall
+    // Avoid walls
+
+    // Check if the boid hits the right or left margin
     if (pos[0] > WIDTH - margin)
     {
         vel[0] -= turnfactor;    
@@ -70,7 +79,7 @@ void Boid::update_pos_avoidwalls(int WIDTH, int HEIGHT)
     {
         vel[0] += turnfactor;    
     }
-    // Check if the boid hits the bottom or top wall
+    // Check if the boid hits the bottom or top margin
     if (pos[1] > HEIGHT - margin)
     {
         vel[1] -= turnfactor;       
@@ -80,11 +89,10 @@ void Boid::update_pos_avoidwalls(int WIDTH, int HEIGHT)
         vel[1] += turnfactor;       
     }
 
-
-    // Update the position of the boid shape
+    // Set position of the boid shape based on position
     boid_shape.setPosition(pos[0], pos[1]);
 
-    // Cosmetic rotation
+    // Calculate angle boid is facing based on velocity
     if (vel[0] != 0 || vel[1] != 0) 
     {
         angle = (atan2(vel[1], vel[0]) * 180 / M_PI) - 90;
@@ -93,20 +101,22 @@ void Boid::update_pos_avoidwalls(int WIDTH, int HEIGHT)
     {
         angle = 0; 
     }
+
+    // Set angle of the boid shape based on angle calculated before
     boid_shape.setRotation(angle);
 }
 
 void Boid::speed_cap()
 {
+    // Calculated current speed based on velocity vector
     float speed = sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
 
-    if (speed > maxspeed)
+    if (speed > maxspeed) // Clamp to maximum speed
     {
         vel[0] = (vel[0] / speed) * maxspeed;
         vel[1] = (vel[1] / speed) * maxspeed;
     }
-
-    if (speed < minspeed)
+    else if (speed < minspeed) // Clamp to minimum speed
     {
         vel[0] = (vel[0] / speed) * minspeed;
         vel[1] = (vel[1] / speed) * minspeed;
@@ -115,18 +125,22 @@ void Boid::speed_cap()
 
 void Boid::separation(vector<Boid>& boids)
 {   
+    // Init values for repulsion forces
     float close_dx = 0.0;
     float close_dy = 0.0;
 
+    // Iterate over each boid in vector
     for (int i = 0, len = boids.size(); i < len; i++)
     {
-        // Calculate the squared distance between this boid and the current boid
+        // Calculate the distance between the iterated boid and the current boid object
         float dx = pos[0] - boids[i].pos[0];
         float dy = pos[1] - boids[i].pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
+        // If the iterated boid is within the protected range and is not the current boid object
         if (distance <= protected_range && distance > 0)
         {
+            // Scaling value (stronger repulsion if boids are closer)
             float inv_distance = 1.0 / distance;
             
             // Scale the repulsion force using the inverse distance
@@ -135,6 +149,7 @@ void Boid::separation(vector<Boid>& boids)
         } 
     }
 
+    // Update velocities based on repulsion force
     vel[0] += close_dx * avoidfactor;
     vel[1] += close_dy * avoidfactor;
 }
@@ -142,12 +157,14 @@ void Boid::separation(vector<Boid>& boids)
 
 void Boid::alignment_and_cohesion(vector<Boid>& boids)
 {
+    // Initialise averages for velocities and positions of neighboring boids, as well as the total number of neighbors
     float xvel_avg = 0.0;
     float yvel_avg = 0.0;
     float xpos_avg = 0.0;
     float ypos_avg = 0.0;
     int neighboring_boids = 0;
 
+    // Iterate over each boid in vector
     for (int i = 0, len = boids.size(); i < len; i++)
     {
         // Calculate the distance between this boid and the current boid
@@ -155,28 +172,35 @@ void Boid::alignment_and_cohesion(vector<Boid>& boids)
         float dy = boids[i].pos[1] - pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
+        // If the iterated boid is within the visible range and is not the current boid object
         if (distance <= visible_range && distance > 0)
         {
-            // Calculate the adjustment to the velocity based on separation
+            // Add the iterated boid's velocity to the velocity averages
             xvel_avg += boids[i].vel[0];
             yvel_avg += boids[i].vel[1];
-            // Add the x and y positions of the other boid to xpos_avg and ypos_avg
+            // Add the iterated boid's position to the position averages
             xpos_avg += boids[i].pos[0];
             ypos_avg += boids[i].pos[1];
+            // Add one to the number of neighboring boids
             neighboring_boids += 1;
         }
     }    
+    // If there are valid neighboring boids
     if (neighboring_boids > 0)
     {
-        xvel_avg = xvel_avg / float(neighboring_boids);
-        yvel_avg = yvel_avg / float(neighboring_boids);
+        // Finalise average calculation for the velocities of the neighboring boids
+        xvel_avg /= float(neighboring_boids);
+        yvel_avg /= float(neighboring_boids);
 
+        // Update the current boid's velocity based on the average, its current velocity, and the matching factor
         vel[0] += (xvel_avg - vel[0]) * matching_factor;
         vel[1] += (yvel_avg - vel[1]) * matching_factor;  
 
+        // Finalise average calculation for the positions of the neighboring boids
         xpos_avg /= float(neighboring_boids);
         ypos_avg /= float(neighboring_boids);
 
+        // Update the current boid's velocity based on the average, its current position, and the centering factor
         vel[0] += (xpos_avg - pos[0]) * centering_factor;
         vel[1] += (ypos_avg - pos[1]) * centering_factor;  
     }
