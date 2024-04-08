@@ -1,0 +1,3 @@
+repository:
+  images:
+    - url: "../.github/boids_example.jpg"
