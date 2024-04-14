@@ -13,7 +13,7 @@ int main()
 
     // Window variables
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 8; // Adjust the antialiasing level as needed
+    settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
     
     // Random number seed
