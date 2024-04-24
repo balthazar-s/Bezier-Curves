@@ -13,8 +13,10 @@ int main()
     window.setFramerateLimit(60);
 
     Point point1({500, 500}, sf::Color::White, 0);
+    Point point2({100, 100}, sf::Color::Green, 1);
 
     point1.init();
+    point2.init();
 
     // Main process
     while (window.isOpen()) {
@@ -28,11 +30,13 @@ int main()
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             point1.drag_point(window);
+            point2.drag_point(window);
         }
 
         window.clear();
 
         point1.draw_point(window);
+        point2.draw_point(window);
 
         window.display();
     }

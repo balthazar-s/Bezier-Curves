@@ -9,7 +9,7 @@ class Point {
   public:
     vector<float> pos;
     sf::Color color;
-    int type;
+    int type; // 0 is anchor, 1 is control
     int radius = 7; 
     sf::CircleShape point_shape; 
 
