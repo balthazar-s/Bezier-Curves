@@ -30,13 +30,10 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 800), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
     window.setFramerateLimit(60);
 
-    Point point1({500, 500}, sf::Color::White, 0);
-    Point point2({100, 100}, sf::Color::Green, 1);
-
     vector<Point> points;
 
-    point1.init();
-    point2.init();
+    points.push_back(Point({500, 500}, sf::Color::White, 0));
+    points.push_back(Point({100, 100}, sf::Color::Green, 1));
 
     // Main process
     while (window.isOpen()) {
@@ -49,14 +46,12 @@ int main()
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            bool check = point1.drag_point(window);
-            check = point2.drag_point(window);
             points.push_back(Point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Red, 1));
         }
 
         window.clear();
 
-        drawLine(window, point1.pos, point2.pos, 2);
+        drawLine(window, points[0].pos, points[2].pos, 2);
 
         for (int i = 0, len = points.size(); i < len; i++)
         {
