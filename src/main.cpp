@@ -1,26 +1,8 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "../include/point.hpp" 
 #include <random>
+#include "../include/curve.hpp"
 using namespace std;
-
-void drawLine(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f end, float thickness)
-{
-    // Calculate the line direction and length
-    sf::Vector2f direction = end - start;
-    float length = sqrt(direction.x * direction.x + direction.y * direction.y);
-
-    // Calculate rotation of the rectangle
-    float angle = atan2(direction.y, direction.x) * 180 / M_PI;
-
-    // Create rectangle shape
-    sf::RectangleShape line(sf::Vector2f(length, thickness));
-    line.setOrigin(0, thickness / 2.0f);
-    line.setPosition(start);
-    line.setRotation(angle);
-    
-    // Draw the line
-    window.draw(line);
-}
 
 int main()
 {   
@@ -32,12 +14,16 @@ int main()
 
     vector<Point> points;
 
+    points.push_back(Point({300, 500}, sf::Color::White, 0));
     points.push_back(Point({500, 500}, sf::Color::White, 0));
+    points.push_back(Point({700, 100}, sf::Color::White, 1));
 
     for (int i = 0, len = points.size(); i < len; i++)
     {
         points[i].init();
     }
+
+    Curve curve({points[0].pos, points[1].pos}, points[2].pos);
 
     // Main process
     while (window.isOpen()) {
@@ -50,20 +36,29 @@ int main()
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            points.push_back(Point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Red, 1));
-            points.back().init();
+            bool check = false;
+            for (int i = 0, len = points.size(); i < len; i++)
+            {
+                if (!check)
+                {
+                    check = points[i].drag_point(window);
+                }
+            }
+            /*if (!check)
+            {
+                points.push_back(Point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Red, 1));
+                points.back().init();
+            }*/
         }
+
+        curve.update_curve(points);
 
         window.clear();
 
-        drawLine(window, points[0].pos, points[1].pos, 2);
+        curve.draw_curve(window);
 
         for (int i = 0, len = points.size(); i < len; i++)
         {
-            if (i < len -1)
-            {
-                drawLine(window, points[i].pos, points[i+1].pos, 2);
-            }
             window.draw(points[i].point_shape);
         }
 

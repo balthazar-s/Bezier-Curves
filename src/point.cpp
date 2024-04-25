@@ -14,7 +14,6 @@ void Point::init()
 
 void Point::draw_point(sf::RenderWindow& window)
 {
-    point_shape.setPosition(pos.x, pos.y);
     window.draw(point_shape);
 }
 
@@ -26,6 +25,7 @@ bool Point::drag_point(sf::RenderWindow& window)
     }
     pos.x = sf::Mouse::getPosition(window).x;
     pos.y = sf::Mouse::getPosition(window).y;
+    point_shape.setPosition(pos.x-radius, pos.y-radius);
     return true;
 
 }
