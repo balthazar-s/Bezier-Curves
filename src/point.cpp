@@ -8,13 +8,13 @@ void Point::init()
 {
     point_shape.setRadius(radius);
     point_shape.setFillColor(color);
-    point_shape.setPosition(pos.x, pos.y);
-    point_shape.setPointCount(12);
+    point_shape.setPosition(pos.x-radius, pos.y-radius);
+    point_shape.setPointCount(10);
 }
 
 void Point::draw_point(sf::RenderWindow& window)
 {
-    point_shape.setPosition(pos.x - radius, pos.y - radius);
+    point_shape.setPosition(pos.x, pos.y);
     window.draw(point_shape);
 }
 
@@ -26,8 +26,6 @@ bool Point::drag_point(sf::RenderWindow& window)
     }
     pos.x = sf::Mouse::getPosition(window).x;
     pos.y = sf::Mouse::getPosition(window).y;
-
-    point_shape.setPosition(pos.x, pos.y);
     return true;
 
 }

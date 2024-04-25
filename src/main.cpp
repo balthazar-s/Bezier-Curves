@@ -27,13 +27,17 @@ int main()
     // Window variables
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(1000, 800), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
+    sf::RenderWindow window(sf::VideoMode(1000, 800), "Bezier Curves", sf::Style::Titlebar | sf::Style::Close, settings);
     window.setFramerateLimit(60);
 
     vector<Point> points;
 
     points.push_back(Point({500, 500}, sf::Color::White, 0));
-    points.push_back(Point({100, 100}, sf::Color::Green, 1));
+
+    for (int i = 0, len = points.size(); i < len; i++)
+    {
+        points[i].init();
+    }
 
     // Main process
     while (window.isOpen()) {
@@ -47,14 +51,19 @@ int main()
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             points.push_back(Point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Red, 1));
+            points.back().init();
         }
 
         window.clear();
 
-        drawLine(window, points[0].pos, points[2].pos, 2);
+        drawLine(window, points[0].pos, points[1].pos, 2);
 
         for (int i = 0, len = points.size(); i < len; i++)
         {
+            if (i < len -1)
+            {
+                drawLine(window, points[i].pos, points[i+1].pos, 2);
+            }
             window.draw(points[i].point_shape);
         }
 
