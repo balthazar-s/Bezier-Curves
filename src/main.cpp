@@ -9,22 +9,29 @@ int main()
     // Window variables
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(1000, 800), "Bezier Curves", sf::Style::Titlebar | sf::Style::Close, settings);
+    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Bezier Curves", sf::Style::Titlebar | sf::Style::Close, settings);
     window.setFramerateLimit(60);
 
     vector<Point> points;
 
-    points.push_back(Point({300, 500}, sf::Color::White, 0));
-    points.push_back(Point({500, 500}, sf::Color::White, 0));
-    points.push_back(Point({700, 100}, sf::Color::Red, 1));
-    points.push_back(Point({300, 200}, sf::Color::Red, 1));
+    points.push_back(Point({200, 500}, sf::Color::White, 0));
+    points.push_back(Point({500, 200}, sf::Color::White, 0));
+    points.push_back(Point({500, 800}, sf::Color::White, 0));
+    points.push_back(Point({800, 500}, sf::Color::White, 0));
+
 
     for (int i = 0, len = points.size(); i < len; i++)
     {
         points[i].init();
     }
 
-    Curve curve({points[0].pos, points[1].pos}, {points[2].pos, points[3].pos});
+    vector<sf::Vector2f> locations;
+    for (int i = 0, len = points.size(); i < len; i++)
+    {
+        locations.push_back(points[i].pos);
+    }
+
+    Curve curve(locations);
 
     // Main process
     while (window.isOpen()) {
@@ -45,6 +52,14 @@ int main()
                     check = points[i].drag_point(window);
                 }
             }
+            /*if (!check)
+            {
+                int len = points.size() - 1;
+                Point new_point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Red, 0);
+                points.insert(points.end() - 1, new_point);
+                
+                points[len].init();
+            }*/
         }
 
         curve.update_curve(points);

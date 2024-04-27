@@ -4,6 +4,14 @@
 #include "../include/curve.hpp"
 using namespace std;
 
+unsigned int fact(unsigned int n) 
+{
+    if (n == 0)
+       return 1;
+    return n * fact(n - 1);
+}
+
+
 void draw_line_curve(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f end, float width)
 {
     // Calculate the line direction and length
@@ -24,17 +32,27 @@ void draw_line_curve(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f 
     window.draw(line);
 }
 
-void Curve::update_curve(vector<Point> points)
+void Curve::update_curve(vector<Point> points_input)
 {
-    anchors = {points[0].pos, points[1].pos};
-    control = {points[2].pos, points[3].pos};
+    points.clear();
+    for (int i = 0, len = points_input.size(); i < len; i++)
+    {
+        points.push_back(points_input[i].pos);
+    }
     
     curve_points.clear();
-    for (int i = 0; i < (resolution+1); i++)
+    for (int j = 0; j < (resolution+1); j++)
     {
-        float p = (1.0 / resolution) * i;
-        float x = pow(1 - p, 3) * anchors[0].x + 3*pow(1 - p, 2)*p*control[0].x + 3*(1 - p)*pow(p, 2)*control[1].x + pow(p, 3)*anchors[1].x;
-        float y = pow(1 - p, 3) * anchors[0].y + 3*pow(1 - p, 2)*p*control[0].y + 3*(1 - p)*pow(p, 2)*control[1].y + pow(p, 3)*anchors[1].y;
+        float t = (1.0 / resolution) * j;
+        float x = 0.0;
+        float y = 0.0;
+        for (int i = 0, n = points.size(); i < n; i++)
+        {
+            x += float(points[i].x * (fact(n-1) / (fact(i) * fact(n-1-i))) * pow(t, i) * pow(1 - t, n - 1 - i));
+            
+            y += float(points[i].y * (fact(n-1) / (fact(i) * fact(n-1-i))) * pow(t, i) * pow(1 - t, n - 1 - i));
+        }
+        
         curve_points.push_back(sf::Vector2f(x, y));
     }
 }
