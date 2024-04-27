@@ -14,10 +14,12 @@ int main()
 
     vector<Point> points;
 
-    points.push_back(Point({200, 500}, sf::Color::White, 0));
-    points.push_back(Point({500, 200}, sf::Color::White, 0));
-    points.push_back(Point({500, 800}, sf::Color::White, 0));
-    points.push_back(Point({800, 500}, sf::Color::White, 0));
+    points.push_back(Point({200, 500}, sf::Color::Red, 0));
+    points.push_back(Point({500, 200}, sf::Color::Black, 1));
+    points.push_back(Point({500, 800}, sf::Color::Black, 1));
+    points.push_back(Point({800, 500}, sf::Color::Red, 0));
+
+
 
 
     for (int i = 0, len = points.size(); i < len; i++)
@@ -37,29 +39,67 @@ int main()
     while (window.isOpen()) {
         // Exit window event
         sf::Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event)) 
+        {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        bool check = false;
+        // Check for mouse clicks
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
         {
-            bool check = false;
-            for (int i = 0, len = points.size(); i < len; i++)
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            int len = points.size();
+            for (int i = 0; i < len; ++i) 
             {
-                if (!check)
+                if (points[i].point_shape.getGlobalBounds().contains(mousePos.x, mousePos.y)) 
                 {
-                    check = points[i].drag_point(window);
+                    bool temp = false;
+                    for (int j = 0; j < len; j++)
+                    {
+                        if (points[j].selected)
+                        {
+                            temp = true;
+                        }
+                    }
+                    if (!temp)
+                    {
+                        points[i].selected = true;
+                        check = true;
+                    }
                 }
             }
-            /*if (!check)
+            for (int i = 0; i < len; ++i) 
             {
+                if (points[i].selected)
+                {
+                    check = true;
+                }
+            }
+            if (!check)
+            {   
                 int len = points.size() - 1;
-                Point new_point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Red, 0);
+                Point new_point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Black, 1);
                 points.insert(points.end() - 1, new_point);
                 
                 points[len].init();
-            }*/
+                points[len].selected = true;
+            }
+        } else {
+            // Release all points when mouse button is up
+            for (int i = 0; i < points.size(); ++i) 
+            {
+                points[i].selected = false;
+            }
+        }
+
+        // Update dragged points
+        for (int i = 0; i < points.size(); ++i) {
+            if (points[i].selected) 
+            {
+                points[i].drag_point(window);
+            }
         }
 
         curve.update_curve(points);

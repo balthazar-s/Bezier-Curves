@@ -10,7 +10,7 @@ class Curve {
   public:
     vector<sf::Vector2f> points;
     int width = 2;
-    int resolution = 48;
+    int resolution = 64;
     vector<sf::Vector2f> curve_points; 
 
     // Constructor to initialize position and velocity

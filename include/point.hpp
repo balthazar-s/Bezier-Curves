@@ -11,12 +11,15 @@ class Point {
     sf::Color color;
     int type; // 0 is anchor, 1 is control
     int radius = 7; 
-    sf::CircleShape point_shape; 
+    sf::CircleShape point_shape;
+    bool selected = false; 
 
     // Constructor to initialize position and velocity
     Point(const sf::Vector2f position, const sf::Color color, const int type) : pos(position), color(color), type(type) {};
 
     void init();
+
+    void check_mouse(sf::RenderWindow& window);
 
     void draw_point(sf::RenderWindow& window);
 
