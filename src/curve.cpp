@@ -27,14 +27,14 @@ void draw_line_curve(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f 
 void Curve::update_curve(vector<Point> points)
 {
     anchors = {points[0].pos, points[1].pos};
-    control = points[2].pos;
+    control = {points[2].pos, points[3].pos};
     
     curve_points.clear();
     for (int i = 0; i < (resolution+1); i++)
     {
         float p = (1.0 / resolution) * i;
-        float x = pow(1 - p, 2) * anchors[0].x + 2*(1 - p)*p*anchors[1].x + pow(p, 2)*control.x;
-        float y = pow(1 - p, 2) * anchors[0].y + 2*(1 - p)*p*anchors[1].y + pow(p, 2)*control.y;
+        float x = pow(1 - p, 3) * anchors[0].x + 3*pow(1 - p, 2)*p*control[0].x + 3*(1 - p)*pow(p, 2)*control[1].x + pow(p, 3)*anchors[1].x;
+        float y = pow(1 - p, 3) * anchors[0].y + 3*pow(1 - p, 2)*p*control[0].y + 3*(1 - p)*pow(p, 2)*control[1].y + pow(p, 3)*anchors[1].y;
         curve_points.push_back(sf::Vector2f(x, y));
     }
 }

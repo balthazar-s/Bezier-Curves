@@ -16,14 +16,15 @@ int main()
 
     points.push_back(Point({300, 500}, sf::Color::White, 0));
     points.push_back(Point({500, 500}, sf::Color::White, 0));
-    points.push_back(Point({700, 100}, sf::Color::White, 1));
+    points.push_back(Point({700, 100}, sf::Color::Red, 1));
+    points.push_back(Point({300, 200}, sf::Color::Red, 1));
 
     for (int i = 0, len = points.size(); i < len; i++)
     {
         points[i].init();
     }
 
-    Curve curve({points[0].pos, points[1].pos}, points[2].pos);
+    Curve curve({points[0].pos, points[1].pos}, {points[2].pos, points[3].pos});
 
     // Main process
     while (window.isOpen()) {
@@ -44,11 +45,6 @@ int main()
                     check = points[i].drag_point(window);
                 }
             }
-            /*if (!check)
-            {
-                points.push_back(Point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Red, 1));
-                points.back().init();
-            }*/
         }
 
         curve.update_curve(points);
