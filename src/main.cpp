@@ -19,8 +19,7 @@ int main()
     points.push_back(Point({500, 800}, sf::Color::Black, 1));
     points.push_back(Point({800, 500}, sf::Color::Red, 0));
 
-
-
+    int selection_settings = 1;
 
     for (int i = 0, len = points.size(); i < len; i++)
     {
@@ -46,53 +45,98 @@ int main()
         }
 
         bool check = false;
-        // Check for mouse clicks
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
+        switch (selection_settings)
         {
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            int len = points.size();
-            for (int i = 0; i < len; ++i) 
+        case 0:
+            // Check for mouse clicks
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
             {
-                if (points[i].point_shape.getGlobalBounds().contains(mousePos.x, mousePos.y)) 
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                int len = points.size();
+                for (int i = 0; i < len; i++) 
                 {
-                    bool temp = false;
-                    for (int j = 0; j < len; j++)
-                    {
-                        if (points[j].selected)
-                        {
-                            temp = true;
-                        }
-                    }
-                    if (!temp)
+                    if (points[i].point_shape.getGlobalBounds().contains(mousePos.x, mousePos.y)) 
                     {
                         points[i].selected = true;
+                    }
+                }
+            } else {
+                // Release all points when mouse button is up
+                for (int i = 0; i < points.size(); i++) 
+                {
+                    points[i].selected = false;
+                }
+            }
+            break;
+
+        case 1:
+            // Check for mouse clicks
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
+            {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                int len = points.size();
+                for (int i = 0; i < len; i++) 
+                {
+                    if (points[i].point_shape.getGlobalBounds().contains(mousePos.x, mousePos.y)) 
+                    {
+                        bool temp = false;
+                        for (int j = 0; j < len; j++)
+                        {
+                            if (points[j].selected)
+                            {
+                                temp = true;
+                            }
+                        }
+                        if (!temp)
+                        {
+                            points[i].selected = true;
+                            check = true;
+                        }
+                    }
+                }
+                for (int i = 0; i < len; i++) 
+                {
+                    if (points[i].selected)
+                    {
                         check = true;
                     }
                 }
-            }
-            for (int i = 0; i < len; ++i) 
-            {
-                if (points[i].selected)
+                if (!check)
+                {   
+                    int len = points.size() - 1;
+                    Point new_point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Black, 1);
+                    points.insert(points.end() - 1, new_point);
+                    
+                    points[len].init();
+                    points[len].selected = true;
+                }
+            } else {
+                // Release all points when mouse button is up
+                for (int i = 0; i < points.size(); i++) 
                 {
-                    check = true;
+                    points[i].selected = false;
                 }
             }
-            if (!check)
-            {   
-                int len = points.size() - 1;
-                Point new_point({float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y)}, sf::Color::Black, 1);
-                points.insert(points.end() - 1, new_point);
-                
-                points[len].init();
-                points[len].selected = true;
-            }
-        } else {
-            // Release all points when mouse button is up
-            for (int i = 0; i < points.size(); ++i) 
+            break;
+
+        case 2:
+            // Check for mouse clicks
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
             {
-                points[i].selected = false;
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                int len = points.size();
+                for (int i = 0; i < len; i++) 
+                {
+                    if (points[i].point_shape.getGlobalBounds().contains(mousePos.x, mousePos.y)) 
+                    {
+                        vector<Point>::iterator it = ( points.begin() + i);
+                        points.erase(it);
+                    }
+                }
             }
+            break;    
         }
+        
 
         // Update dragged points
         for (int i = 0; i < points.size(); ++i) {
