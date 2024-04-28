@@ -13,4 +13,5 @@ compile:
 # Create final file
 link:
 	g++ $(BUILD_DIR)/main.o $(BUILD_DIR)/point.o $(BUILD_DIR)/curve.o -o $(BUILD_DIR)/main \
-		-lsfml-graphics -lsfml-window -lsfml-system 
+		-lsfml-graphics -lsfml-window -lsfml-system -lopengl32 -lfreetype \
+		-lwinmm -lgdi32 -mwindows -lsfml-main -lstdc++ -static-libgcc -static-libstdc++

@@ -4,6 +4,7 @@
 #include "../include/curve.hpp"
 using namespace std;
 
+// Factorial function for bernstein polynomial calculation
 unsigned int fact(unsigned int n) 
 {
     if (n == 0)
@@ -11,7 +12,7 @@ unsigned int fact(unsigned int n)
     return n * fact(n - 1);
 }
 
-
+// Draw very small rotated rectangles between points passed in
 void draw_line_curve(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f end, float width)
 {
     // Calculate the line direction and length
@@ -32,14 +33,18 @@ void draw_line_curve(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f 
     window.draw(line);
 }
 
+// Update curve points with new points list
+// Then Calculated new bernstein polynomial with new points and output a list of vectors (coordinates) to curve_points of resolution size
 void Curve::update_curve(vector<Point> points_input)
 {
+    // Update with new point locations
     points.clear();
     for (int i = 0, len = points_input.size(); i < len; i++)
     {
         points.push_back(points_input[i].pos);
     }
     
+    // Update polynomial
     curve_points.clear();
     for (int j = 0; j < (resolution+1); j++)
     {
@@ -57,6 +62,7 @@ void Curve::update_curve(vector<Point> points_input)
     }
 }
 
+// Draw curve to window with draw_line_curve
 void Curve::draw_curve(sf::RenderWindow& window)
 {
     for (int i = 0, len = curve_points.size(); i < len; i++)

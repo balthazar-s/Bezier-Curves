@@ -13,7 +13,6 @@ class Curve {
     int resolution = 64;
     vector<sf::Vector2f> curve_points; 
 
-    // Constructor to initialize position and velocity
     Curve(const vector<sf::Vector2f> points) : points(points) {};
 
     void update_curve(vector<Point> points_input);

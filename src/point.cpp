@@ -4,6 +4,7 @@
 #include <cmath>
 using namespace std;
 
+// Init everything about point
 void Point::init()
 {
     point_shape.setRadius(radius);
@@ -17,26 +18,17 @@ void Point::init()
     }
 }
 
+// Draw point to window
 void Point::draw_point(sf::RenderWindow& window)
 {
     window.draw(point_shape);
 }
 
-void Point::check_mouse(sf::RenderWindow& window)
-{
-    if (sqrt(pow(pos.x-sf::Mouse::getPosition(window).x, 2) + pow(pos.y-sf::Mouse::getPosition(window).y, 2)) > radius + 15)
-    {
-        selected = false;
-        return;
-    }
-    selected = true;
-}
-
+// Move point by mouse relative window coordinates
 bool Point::drag_point(sf::RenderWindow& window)
 {
     pos.x = sf::Mouse::getPosition(window).x;
     pos.y = sf::Mouse::getPosition(window).y;
     point_shape.setPosition(pos.x-radius, pos.y-radius);
     return true;
-
 }
