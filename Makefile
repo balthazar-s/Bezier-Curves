@@ -4,7 +4,7 @@ BUILD_DIR := .build
 # Main process
 all: compile link
 
-# Compile files seperately
+# Compile files separately
 compile:
 	g++ -Isrc/include -c src/main.cpp -o $(BUILD_DIR)/main.o -DSFML_STATIC
 	g++ -Isrc/include -c src/point.cpp -o $(BUILD_DIR)/point.o -DSFML_STATIC
@@ -13,5 +13,4 @@ compile:
 # Create final file
 link:
 	g++ $(BUILD_DIR)/main.o $(BUILD_DIR)/point.o $(BUILD_DIR)/curve.o -o $(BUILD_DIR)/main \
-		-Lsrc/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype \
-		-lwinmm -lgdi32 -mwindows -lsfml-main -static -lstdc++ -static-libgcc -static-libstdc++
+		-lsfml-graphics -lsfml-window -lsfml-system 
