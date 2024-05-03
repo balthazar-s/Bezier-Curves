@@ -27,7 +27,7 @@ int main()
     sf::Font default_font;
     if (!default_font.loadFromFile("assets/arial.ttf"))
     {
-        return 1;
+        //error
     }
 
     // Vector of seperate buttons

@@ -13,7 +13,8 @@ unsigned int fact(unsigned int n)
 }
 
 // Draw very small rotated rectangles between points passed in
-void draw_line_curve(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f end, float width)
+// Function created using the help of ChatGPT
+void draw_line(sf::RenderWindow& window, sf::Vector2f start, sf::Vector2f end, float width)
 {
     // Calculate the line direction and length
     sf::Vector2f direction = end - start;
@@ -62,14 +63,14 @@ void Curve::update_curve(vector<Point> points_input)
     }
 }
 
-// Draw curve to window with draw_line_curve
+// Draw curve to window with draw_line
 void Curve::draw_curve(sf::RenderWindow& window)
 {
     for (int i = 0, len = curve_points.size(); i < len; i++)
     {
         if (i < len -1)
         {
-            draw_line_curve(window, curve_points[i], curve_points[i+1], 2);
+            draw_line(window, curve_points[i], curve_points[i+1], 2);
         }
     }
 }
