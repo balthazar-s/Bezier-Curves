@@ -59,4 +59,4 @@ The _Curve_ class is more complicated:
 
 
 ### Extra Notes
-As I was not successfull in compiling this project with static linking, the .exe found within the .build folder will not work without SFML installed. I installed it through Mysys2 and compiled my code with MinGW.
+As I was not successful in compiling this project with static linking, the .exe found within the .build folder will not work without SFML installed. I installed it through Mysys2 and compiled my code with MinGW.
